@@ -13,7 +13,7 @@ let
     # - `bar`
     # - `baz
     # ''
-    mkMDList = vals: lib.join "\n- " (map (m: "`" + m + "`") vals);
+    mkMDList = vals: lib.join "\n" (map (m: "- `${m}`") vals);
 in
 with lib; {
     options.programs.zsh-powerlevel10k = {
