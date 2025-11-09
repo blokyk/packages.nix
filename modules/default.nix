@@ -1,3 +1,5 @@
 {
-  imports = [];
+  imports = [
+    ./zsh-powerlevel10k
+  ];
 }
