@@ -1,6 +1,8 @@
 # zoë's nix packages
 
-A few nix packages I wrote (surprise!).
+A few nix packages I wrote (surprise!). Currently available:
+
+- [`picoshare`](https://github.com/mtlynch/picoshare/)
 
 ## Usage
 
