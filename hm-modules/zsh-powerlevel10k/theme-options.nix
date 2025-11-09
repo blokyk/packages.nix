@@ -1,4 +1,4 @@
-{ lib, config, mkMDList, ... }:
+{ lib, ... }:
 let
   inherit (lib) mkOption types;
 

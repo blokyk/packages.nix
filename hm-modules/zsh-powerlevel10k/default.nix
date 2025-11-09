@@ -1,8 +1,17 @@
-{ config, home, lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
     cfg = config.programs.zsh-powerlevel10k;
-    mkTheme = import ./mkTheme.nix;
+
+    mylib = lib // { mkMDList = mkMDList; };
+
+    mkTheme =
+        config: import ./mkTheme.nix { inherit config; lib = mylib; };
+
+    theme-options =
+        config: import ./theme-options.nix { inherit config; lib = mylib; };
+    element-options =
+        config: import ./element-options.nix { inherit config; lib = mylib; };
 
     builtin-themes = import ./builtin-themes.nix;
     builtin-formatters = import ./builtin-git-formatters.nix;
@@ -43,8 +52,8 @@ with lib; {
         theme = mkOption {
             type = types.submoduleWith {
                 modules = [
-                    ({ config, ... }: import ./theme-options.nix {inherit lib mkMDList config;})
-                    ({ config, ...}: import ./element-options.nix {inherit lib config;})
+                    ({ config, ... }: theme-options config)
+                    ({ config, ...}: element-options config)
                 ];
             };
             default = { };
@@ -97,7 +106,7 @@ with lib; {
         programs.zsh.envExtra =
             let
                 themeFile = if (cfg.themeFile == null)
-                    then pkgs.writeText ".p10k.zsh" (mkTheme { inherit lib; config = cfg; })
+                    then pkgs.writeText ".p10k.zsh" (mkTheme cfg)
                     else cfg.themeFile;
             in
                 mkAfter ''
