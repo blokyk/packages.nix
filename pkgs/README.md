@@ -2,7 +2,7 @@
 
 A few nix packages I wrote (surprise!). Currently available:
 
-- [`picoshare`](https://github.com/mtlynch/picoshare/)
+- [`mtlynch/picoshare`](https://github.com/mtlynch/picoshare/)
 
 ## Usage
 

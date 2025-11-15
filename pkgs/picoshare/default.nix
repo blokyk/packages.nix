@@ -16,5 +16,6 @@
     home = "https://github.com/mtlynch/picoshare";
     license = licenses.agpl3Only;
     maintainers = [ maintainers.blokyk ];
+    mainProgram = "picoshare";
   };
 }
