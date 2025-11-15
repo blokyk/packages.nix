@@ -2,7 +2,7 @@
 
 Some NixOS modules I wrote for convenience. Currently exposes:
 
-- nothing, sorry :( this is just a placeholder for now
+- [`mtlynch/picoshare`](https://github.com/mtlynch/picoshare/) as `service.picoshare`
 
 ## Usage
 
@@ -11,9 +11,12 @@ Import it like any other module:
 ```nix
 # configuration.nix
 { lib, pkgs, ... }: {
-    imports = [ <zoeee/modules> ];
-    ...
+  imports = [ <zoeee/modules> ];
+  ...
 
-    services.nothing = "sorry";
+  services.picoshare = {
+    enable = true;
+    adminSecretFile = "/var/secrets/picoshare";
+  };
 }
 ```
