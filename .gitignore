@@ -1,4 +1,4 @@
 .vscode/
 
-.old
-.bkp
+*.old
+*.bkp
