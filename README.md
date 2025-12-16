@@ -6,12 +6,9 @@ million git repos and then having to manage submodules and stuff (which i
 hate...).
 
 > [!NOTE]
-> since i dont use flakes on my system right now, this repo does not support
-> flakes (i.e. it might work, it might not, it might break one day). if you'd
-> like to add support (or help me transition to using flakes relatively
-> easily/without boilerplate), feel free to open an issue or PR and i'll be
-> happy to discuss it! (though i know next to nothing about flakes so please be
-> patient with me :)
+> since i dont use flakes on my system right now, the flake support of this
+> repo might break or be outdated without me noticing. if that's the case,
+> please don't hesitate to open an issue!
 
 because i don't want to have to rigorously maintain them, i don't really plan
 on upstreaming any of these to nixpkgs right now. however, if you want to
