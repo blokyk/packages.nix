@@ -6,9 +6,12 @@ let
     value = config._location-config;
   };
 in cfg: mkIf cfg.enable {
-  addSSL = cfg.enableHTTPS != false;
 
-  enableACME = cfg.enableHTTPS == true;
+  enableACME = cfg.enableHTTPS != false;
+
+  # these two options are mutually exclusive:
+  # `addSSL` allows both http and https, and `forceSSL` forces http conns to be https
+  addSSL = cfg.enableHTTPS == "both";
   forceSSL = cfg.enableHTTPS == true;
 
   locations = {
