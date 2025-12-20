@@ -23,6 +23,13 @@ buildGoModule {
 
   vendorHash = "sha256-Wf0qKs/9XKnO2nx2KmTGPdqI0iFih30AGvOi94RPEjw=";
 
+  ldflags = [
+    # make sure build time is always set to 0 to make the build reproducible
+    "-X github.com/mtlynch/picoshare/v2/build.unixTime=0"
+    # the app displays the version in the "system > information" menu
+    "-X github.com/mtlynch/picoshare/v2/build.Version=${version}"
+  ];
+
   buildInputs = if litestreamSupport then [ litestream ] else [ ];
 
   doInstallCheck = true;
