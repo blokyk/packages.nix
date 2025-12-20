@@ -1,9 +1,12 @@
 {
   lib,
+
   buildGoModule,
   fetchFromGitHub,
   nix-update-script,
+
   litestream,
+
   litestreamSupport ? false,
   ...
 }:
@@ -34,14 +37,16 @@ buildGoModule {
 
   doInstallCheck = true;
 
-  passthru.updateScript = nix-update-script { };
+  passthru = {
+    updateScript = nix-update-script { };
+  };
 
   meta = {
     description = "Minimalist, easy-to-host service for sharing images and other files";
     homepage = "https://github.com/mtlynch/picoshare";
     license = lib.licenses.agpl3Only;
-    mainProgram = "picoshare";
     platforms = lib.platforms.linux ++ lib.platforms.darwin;
+    mainProgram = "picoshare";
     maintainers = with lib.maintainers; [
       blokyk
     ];
