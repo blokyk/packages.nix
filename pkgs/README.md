@@ -3,6 +3,8 @@
 A few nix packages I wrote (surprise!). Currently available:
 
 - [`mtlynch/picoshare`](https://github.com/mtlynch/picoshare/)
+- [`blokyk/nix-otel`](https://github.com/blokyk/nix-otel) (updated fork of
+  [`lf-/nix-otel`](https://github.com/lf-/nix-otel))
 
 ## Usage
 
@@ -17,6 +19,7 @@ let
 in {
   environment.systemPackages = [
       zpkgs.picoshare
+      zpkgs.nix-otel
   ];
 }
 ```
