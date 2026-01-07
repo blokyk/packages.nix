@@ -36,6 +36,7 @@ this channel is split up into three components, each of which has its own
   # in configuration.nix, or a project's default.nix
   { ... }:
   let
+    # you can also use `callPackage` if you want, we just use import for simplicity
     zpkgs = import <zoeee/pkgs> {}; # or (import <zoeee> {}).pkgs
   in {
     environment.systemPackages = [

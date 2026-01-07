@@ -1,16 +1,13 @@
 {
-  pkgs ? import <nixpkgs> {},
+  pkgs ? import <nixpkgs> { },
   ...
-}: {
+}:
+let
+  newpkgs = pkgs.extend (import ./maintainers.nix);
+in {
   # we don't import modules here, since they have either nixos-specific or
   # home-manager specific config,
   #imports = [ ./modules ./hm-modules ];
 
-  pkgs = import ./pkgs { inherit (pkgs) lib pkgs; };
-
-  lib.maintainers.blokyk = {
-    name = "blokyk";
-    github = "blokyk";
-    githubId = 32983140;
-  };
+  pkgs = newpkgs.callPackage ./pkgs {};
 }
