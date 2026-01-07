@@ -1,14 +1,12 @@
 {
-  nixpkgs ? import <nixpkgs> {},
-  lib ? nixpkgs.lib,
-  pkgs ? nixpkgs.pkgs,
+  pkgs ? import <nixpkgs> {},
   ...
 }: {
   # we don't import modules here, since they have either nixos-specific or
   # home-manager specific config,
   #imports = [ ./modules ./hm-modules ];
 
-  pkgs = import ./pkgs {inherit lib pkgs;};
+  pkgs = import ./pkgs { inherit (pkgs) lib pkgs; };
 
   lib.maintainers.blokyk = {
     name = "blokyk";

@@ -24,18 +24,16 @@ in {
 }
 ```
 
-If needed, you can also pass specific `nixpkgs`, `lib` or `pkgs` objects. For
-example:
+If needed, you can also pass specific `pkgs` objects. For example:
 
 ```nix
 let
-    mynix = import <mynix> {};
-    mypkgs = mynix.pkgs // {
+    mynix = (import <mynix> {}) // {
         buildGoModule =
             abort "no Golang in this wholesome christian minecraft server";
     };
 
     # since `lib` isn't specified, it'll use `mynix.lib`
-    zpkgs = import <zoeee/pkgs> { nixpkgs = mynix; pkgs = mypkgs; };
+    zpkgs = import <zoeee/pkgs> { pkgs = mynix; };
 in { ... }
 ```

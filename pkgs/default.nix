@@ -1,9 +1,7 @@
 {
-  nixpkgs ? import <nixpkgs> {},
-  lib ? nixpkgs.lib,
-  pkgs ? nixpkgs.pkgs,
+  pkgs ? import <nixpkgs> {},
   ...
-}: with lib; let
+}: with pkgs.lib; let
   # function to get all (non-recursive) sub folders of a given Path
   listDirectories = path:
     let

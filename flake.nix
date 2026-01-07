@@ -15,7 +15,7 @@
     in {
       packages = forAllSystems (
         system: import ./pkgs {
-          nixpkgs = import nixpkgs { inherit system; };
+          pkgs = import nixpkgs { inherit system; };
         }
       );
 
