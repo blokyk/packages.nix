@@ -12,5 +12,4 @@ let
       map (lib.path.append path) dirEntries;
 in {
   imports = listDirectories ./.;
-  nixpkgs.overlays = [ (import ../maintainers.nix) ];
 }

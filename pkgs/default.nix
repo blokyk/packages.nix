@@ -3,7 +3,7 @@
   ...
 }:
 let
-  newpkgs = pkgs.extend (import ../maintainers.nix);
+  newpkgs = pkgs.extend (import ../maintainers.nix).overlay;
   inherit (newpkgs) lib;
 in
 with lib; let

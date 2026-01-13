@@ -132,4 +132,8 @@ in {
         })
         cfg.hosts;
   };
+
+  meta = {
+    maintainers = [ (import ../../maintainers.nix).blokyk ];
+  };
 }
