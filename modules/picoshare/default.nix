@@ -1,3 +1,4 @@
+# fixme: set pkgs.picoshare's passthru.tests.module = nixosTests.picoshare
 { config, lib, options, ... }:
 with lib;
 let
@@ -23,7 +24,7 @@ in {
       default = 4001;
       example = 8080;
       description = ''
-        The port that PicoShare will listen to.
+        The port that PicoShare will listen on.
       '';
     };
 
@@ -37,7 +38,7 @@ in {
     };
 
     adminPasswordFile = mkOption {
-      type = types.str;
+      type = types.externalPath;
       example = "/var/secrets/picoshare";
       description = ''
         String containing the path to the file containing the admin passphrase. This is read by systemd, so you can set the tighest permissions you need (e.g. root only).
@@ -70,16 +71,6 @@ in {
     hasCustomGroup = cfg.group != opts.group.default;
   in
     mkIf cfg.enable {
-      # make sure the user didn't specify a raw/literal path for the secret,
-      # otherwise it would end up stored in the nix store (which is readable by anyone)
-      assertions = [{
-        assertion = isString cfg.adminPasswordFile && types.path.check cfg.adminPasswordFile;
-        message = ''
-          The value for ${optName "adminPasswordFile"} must be a *string* representing a valid path (but
-          NOT a literal path value, since it would be stored in the world-readable store otherwise).
-        '';
-      }];
-
       users.users = mkIf (!hasCustomUser) {
         "picoshare" = {
           name = "picoshare";
@@ -96,7 +87,7 @@ in {
 
       systemd.services.picoshare = {
         description = cfg.package.meta.description or
-          "A minimalist, easy-to-host service for sharing images and other files";
+          "A minimalist, easy-to-host service for sharing images and other files.";
 
         wantedBy = [ "multi-user.target" ];
         after = [ "network.target" ];
