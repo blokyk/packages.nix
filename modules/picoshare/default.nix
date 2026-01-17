@@ -9,7 +9,7 @@ let
 in {
   options.services.picoshare = {
     enable = mkEnableOption "picoshare";
-    package = mkPackageOption (import <zoeee/pkgs> {}) "picoshare" { pkgsText = "zoeee/pkgs"; };
+    package = mkPackageOption (import ../../pkgs {}) "picoshare" { pkgsText = "zoeee/pkgs"; };
 
     openFirewall = mkOption {
       type = types.bool;
