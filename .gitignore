@@ -6,4 +6,4 @@
 # nixosTest IPython shell history
 *.nixos-test-history
 # build result symlink
-result
+**/result
