@@ -21,10 +21,11 @@
   buildInputs = [ sqlite ];
 
   meta = {
-    description = "Fork of lf-'s 'nix-otel', a Nix OpenTelemetry sender plugin.";
-    homepage = "https://github.com/blokyk/nix-otel";
+    description = "A terminal SQLite database browser, written in Rust.";
+    homepage = "https://github.com/Jkeyuk/JDbrowser";
     license = lib.licenses.gpl3Plus;
     platform = lib.platforms.linux;
     maintainers = with lib.maintainers; [ blokyk ];
+    mainProgram = "jdbrowser";
   };
 })
