@@ -82,7 +82,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   gradleFlags = [
     # the kotlin build can fail if there's not enough memory
-    "-Dkotlin.daemon.jvmargs=-Xmx1G"
+    "-Dkotlin.daemon.jvmargs=-Xmx2G"
   ];
 
   env = {
