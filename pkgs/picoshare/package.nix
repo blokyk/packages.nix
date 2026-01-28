@@ -10,17 +10,14 @@
   litestreamSupport ? false,
   ...
 }:
-let
+buildGoModule (finalAttrs: {
   pname = "picoshare";
   version = "1.5.1";
-in
-buildGoModule {
-  inherit pname version;
 
   src = fetchFromGitHub {
     owner = "mtlynch";
     repo = "picoshare";
-    tag = version;
+    tag = finalAttrs.version;
     sha256 = "sha256-8mgrwnY0Y1CggAtc7BrAqC32+Wu82FQNhoK0ijM1RKw=";
   };
 
@@ -30,7 +27,7 @@ buildGoModule {
     # make sure build time is always set to 0 to make the build reproducible
     "-X github.com/mtlynch/picoshare/v2/build.unixTime=0"
     # the app displays the version in the "system > information" menu
-    "-X github.com/mtlynch/picoshare/v2/build.Version=${version}"
+    "-X github.com/mtlynch/picoshare/v2/build.Version=${finalAttrs.version}"
   ];
 
   buildInputs = if litestreamSupport then [ litestream ] else [ ];
@@ -51,4 +48,4 @@ buildGoModule {
       blokyk
     ];
   };
-}
+})
