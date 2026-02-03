@@ -24,6 +24,7 @@
       modules = {
         hostrr = ./modules/hostrr;
         picoshare = ./modules/picoshare;
+        syncyomi = ./modules/syncyomi;
       };
 
       hm-modules = {
