@@ -1,15 +1,21 @@
 # fixme: set pkgs.picoshare's passthru.tests.module = nixosTests.picoshare
-{ config, lib, options, ... }:
+{
+  config,
+  lib,
+  options,
+  ...
+}:
 with lib;
 let
   opts = options.services.picoshare;
   cfg = config.services.picoshare;
 
   optName = name: "{option}`services.picoshare.${name}`";
-in {
+in
+{
   options.services.picoshare = {
     enable = mkEnableOption "picoshare";
-    package = mkPackageOption (import ../../pkgs {}) "picoshare" { pkgsText = "zoeee/pkgs"; };
+    package = mkPackageOption (import ../../pkgs { }) "picoshare" { pkgsText = "zoeee/pkgs"; };
 
     openFirewall = mkOption {
       type = types.bool;
@@ -66,10 +72,11 @@ in {
     };
   };
 
-  config = let
-    hasCustomUser  = cfg.user != opts.user.default;
-    hasCustomGroup = cfg.group != opts.group.default;
-  in
+  config =
+    let
+      hasCustomUser = cfg.user != opts.user.default;
+      hasCustomGroup = cfg.group != opts.group.default;
+    in
     mkIf cfg.enable {
       users.users = mkIf (!hasCustomUser) {
         "picoshare" = {
@@ -86,8 +93,9 @@ in {
       networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [ cfg.port ];
 
       systemd.services.picoshare = {
-        description = cfg.package.meta.description or
-          "A minimalist, easy-to-host service for sharing images and other files.";
+        description =
+          cfg.package.meta.description
+            or "A minimalist, easy-to-host service for sharing images and other files.";
 
         wantedBy = [ "multi-user.target" ];
         after = [ "network.target" ];

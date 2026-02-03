@@ -15,31 +15,32 @@ let
       example ? null,
       description ? null,
     }:
-      (mkOption {
-        type = types.either
-          type
-          (types.submodule {
-            option = {
-              left = mkOption {
-                type = type;
-                default = default.left ? default;
-                example = example.left ? example;
-                description = description.left ? "The value of this option for the left side of the prompt";
-              };
-              right = mkOption {
-                type = type;
-                default = default.right ? default;
-                example = example.right ? example;
-                description = description.left ? "The value of this option for the right side of the prompt";
-              };
+    (mkOption {
+      type = types.either type (
+        types.submodule {
+          option = {
+            left = mkOption {
+              type = type;
+              default = default.left ? default;
+              example = example.left ? example;
+              description = description.left ? "The value of this option for the left side of the prompt";
             };
-          });
-        default = default;
-        example = example;
-        description = description;
-      });
+            right = mkOption {
+              type = type;
+              default = default.right ? default;
+              example = example.right ? example;
+              description = description.left ? "The value of this option for the right side of the prompt";
+            };
+          };
+        }
+      );
+      default = default;
+      example = example;
+      description = description;
+    });
 in
-with lib; {
+with lib;
+{
   options = {
     # POWERLEVEL9K_MODE
     mode = mkOption {
@@ -57,7 +58,11 @@ with lib; {
     left-prompt = mkOption {
       type = types.listOf prompt-element;
       default = [ "prompt-char" ];
-      example = [ "dir" "vcs" "prompt-char" ];
+      example = [
+        "dir"
+        "vcs"
+        "prompt-char"
+      ];
       description = literalMD ''
         The list of prompt elements shown on the **left**. Fill it with the most important segments.
 
@@ -69,7 +74,11 @@ with lib; {
     right-prompt = mkOption {
       type = types.listOf prompt-element;
       default = [ ];
-      example = [ "status" "command_execution_time" "time" ];
+      example = [
+        "status"
+        "command_execution_time"
+        "time"
+      ];
       description = literalMD ''
         The list of prompt elements shown on the **right**. Fill it with less important segments.
         Right prompt on the last prompt line (where you are typing your commands) gets automatically
@@ -82,7 +91,11 @@ with lib; {
 
     # POWERLEVEL9K_INSTANT_PROMPT
     instant-prompt = mkOption {
-      type = types.enum [ "off" "quiet" "verbose" ];
+      type = types.enum [
+        "off"
+        "quiet"
+        "verbose"
+      ];
       default = "verbose";
       example = "off";
       description = ''
@@ -138,12 +151,13 @@ with lib; {
             right = "The whitespace to put on the right of each element";
           };
         };
-      in {
+      in
+      {
         description = "The whitespace around each element on each side of the prompt";
         default = "";
         example = "\\t";
-        type = types.either inner.type
-          (types.submodule {
+        type = types.either inner.type (
+          types.submodule {
             options = {
               leftElements = inner // {
                 description = "The whitespace to use around each element on the left side of the prompt";
@@ -153,8 +167,8 @@ with lib; {
                 description = "The whitespace to use around each element on the right side of the prompt";
               };
             };
-          })
-        ;
+          }
+        );
       }
     );
 

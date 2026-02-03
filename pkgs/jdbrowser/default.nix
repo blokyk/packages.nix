@@ -5,7 +5,8 @@
   sqlite,
 
   lib,
-}: buildRustPackage (finalAttrs: {
+}:
+buildRustPackage (finalAttrs: {
   pname = "jdbrowser";
   version = "1.4";
 

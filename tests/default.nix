@@ -1,4 +1,5 @@
-with import <nixpkgs> {}; {
-  hostrr = callPackage ./hostrr {};
-  syncyomi = callPackage ./syncyomi {};
+with import <nixpkgs> { };
+{
+  hostrr = callPackage ./hostrr { };
+  syncyomi = callPackage ./syncyomi { };
 }

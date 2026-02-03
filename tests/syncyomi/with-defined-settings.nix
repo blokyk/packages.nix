@@ -1,11 +1,13 @@
 {
   testers,
   ...
-}: testers.runNixOSTest {
+}:
+testers.runNixOSTest {
   name = "with-defined-settings";
 
   nodes.server =
-    { ... }: {
+    { ... }:
+    {
       imports = [ ../../modules/syncyomi ];
 
       # create the required session secret file

@@ -53,18 +53,18 @@ stdenv.mkDerivation (finalAttrs: {
   # it seems we have to do a full build of the whole app to
   # get *all* the dependencies (e.g. the AndroidCompat onces)
   gradleUpdateTask = ":server:shadowJar";
-    # let
-    #   versionOptionals = ver: vals: lib.optionals (lib.versionAtLeast finalAttrs.version ver) vals;
-    #   projects = [
-    #     "buildSrc"
-    #     "AndroidCompat" "AndroidCompat:Config"
-    #     "server"
-    #   ]
-    #   ++ versionOptionals "2.1.1867" [ "server:i18n" ]
-    #   ++ versionOptionals "2.1.1909"
-    #       [ "server:server-config" "server:server-config-generate" ];
-    # in
-    #   [":nixDownloadDeps"] ++ map (project: ":${project}:nixDownloadDeps") projects;
+  # let
+  #   versionOptionals = ver: vals: lib.optionals (lib.versionAtLeast finalAttrs.version ver) vals;
+  #   projects = [
+  #     "buildSrc"
+  #     "AndroidCompat" "AndroidCompat:Config"
+  #     "server"
+  #   ]
+  #   ++ versionOptionals "2.1.1867" [ "server:i18n" ]
+  #   ++ versionOptionals "2.1.1909"
+  #       [ "server:server-config" "server:server-config-generate" ];
+  # in
+  #   [":nixDownloadDeps"] ++ map (project: ":${project}:nixDownloadDeps") projects;
 
   enableParallelBuilding = true;
 
@@ -116,7 +116,10 @@ stdenv.mkDerivation (finalAttrs: {
     changelog = "https://github.com/Suwayomi/Suwayomi-Server/releases/tag/v${finalAttrs.version}";
     license = lib.licenses.mpl20;
     platforms = jdk.meta.platforms;
-    sourceProvenance = [ lib.sourceTypes.fromSource lib.sourceTypes.binaryBytecode ];
+    sourceProvenance = [
+      lib.sourceTypes.fromSource
+      lib.sourceTypes.binaryBytecode
+    ];
     maintainers = with lib.maintainers; [ blokyk ];
     mainProgram = "tachidesk-server";
   };

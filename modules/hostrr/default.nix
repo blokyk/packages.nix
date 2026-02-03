@@ -1,17 +1,28 @@
-{ config, lib, pkgs, ... }:
-with lib.options; with lib.types;
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib.options;
+with lib.types;
 let
   cfg = config.services.hostrr;
   examples = import ./examples.nix;
 
   linksOpt = import ./links.nix { inherit lib pkgs config; };
   mkHostConfig = import ./mkHostConfig.nix { inherit lib pkgs config; };
-in {
+in
+{
   options.services.hostrr = {
     enable = mkEnableOption "hostrr";
 
     enableHTTPS = mkOption {
-      type = enum [true false "both"];
+      type = enum [
+        true
+        false
+        "both"
+      ];
       default = false;
       example = true;
       description = ''
@@ -44,7 +55,11 @@ in {
           };
 
           enableHTTPS = mkOption {
-            type = enum [true false "both"];
+            type = enum [
+              true
+              false
+              "both"
+            ];
             # default = cfg.enableHTTPS;
             example = true;
             description = ''
@@ -112,25 +127,21 @@ in {
   config.assertions =
     let
       assertAtLeastPortOrLink = cfg: {
-            assertion = (!cfg.enable) || (cfg.port != null) || (cfg.links != {});
-            message = ''
-              You have to either specify a service's port to proxy to, or a list of short links to serve/redirect (or both)
-            '';
-          };
+        assertion = (!cfg.enable) || (cfg.port != null) || (cfg.links != { });
+        message = ''
+          You have to either specify a service's port to proxy to, or a list of short links to serve/redirect (or both)
+        '';
+      };
     in
-      map assertAtLeastPortOrLink (lib.attrValues cfg.hosts)
-    ;
+    map assertAtLeastPortOrLink (lib.attrValues cfg.hosts);
 
   config.services.nginx = lib.mkIf cfg.enable {
     enable = true;
 
-    virtualHosts =
-      lib.mapAttrs'
-        (hostName: hostConfig: {
-          name = if hostName == "." then cfg.base else hostName + "." + cfg.base;
-          value = mkHostConfig hostConfig;
-        })
-        cfg.hosts;
+    virtualHosts = lib.mapAttrs' (hostName: hostConfig: {
+      name = if hostName == "." then cfg.base else hostName + "." + cfg.base;
+      value = mkHostConfig hostConfig;
+    }) cfg.hosts;
   };
 
   meta = {

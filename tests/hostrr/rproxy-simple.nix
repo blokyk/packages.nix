@@ -6,20 +6,24 @@
 pkgs.testers.nixosTest (mkTest {
   name = "rproxy-simple";
 
-  client = { subdomains = [ "suwa" ]; };
+  client = {
+    subdomains = [ "suwa" ];
+  };
 
-  server = { ... }: {
-    services.suwayomi-server = {
-      enable = true;
-      settings.server.port = 4567;
-    };
+  server =
+    { ... }:
+    {
+      services.suwayomi-server = {
+        enable = true;
+        settings.server.port = 4567;
+      };
 
-    services.hostrr = {
-      hosts = {
-        "suwa".port = 4567;
+      services.hostrr = {
+        hosts = {
+          "suwa".port = 4567;
+        };
       };
     };
-  };
 
   testScript = ''
     # make sure suwayomi-server "started" (and didn't crash), and then

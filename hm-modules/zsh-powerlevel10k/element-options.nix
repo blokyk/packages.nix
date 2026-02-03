@@ -4,7 +4,8 @@ let
 
   color = lib.types.either (lib.types.int) (lib.types.enum consts.colors);
 in
-with lib; {
+with lib;
+{
   options = {
     prompt-char = mkOption {
       description = "multi-functional prompt symbol; changes depending on vi mode: ❯, ❮, V, ▶ for insert, command, visual and replace mode respectively; turns red on error";
@@ -171,89 +172,92 @@ with lib; {
     vcs = mkOption {
       description = "Git repository status";
       default = { };
-      type = types.submodule ({ config, ... }: {
-        options = {
-          enable = mkEnableOption "the `vcs` (git status) prompt element";
+      type = types.submodule (
+        { config, ... }:
+        {
+          options = {
+            enable = mkEnableOption "the `vcs` (git status) prompt element";
 
-          # POWERLEVEL9K_VCS_BACKGROUND
-          background = mkOption {
-            type = types.nullOr color;
-            default = null;
-            example = "yellow";
-            description = "The background color of this segment, as an xterm color id or name";
+            # POWERLEVEL9K_VCS_BACKGROUND
+            background = mkOption {
+              type = types.nullOr color;
+              default = null;
+              example = "yellow";
+              description = "The background color of this segment, as an xterm color id or name";
+            };
+
+            # POWERLEVEL9K_VCS_FOREGROUND
+            foreground = mkOption {
+              type = types.nullOr color;
+              default = null;
+              example = "magenta";
+              description = "The color of this segment's text, as an xterm color id or name";
+            };
+
+            # POWERLEVEL9K_VCS_LOADING_FOREGROUND
+            loading-foreground = mkOption {
+              type = types.nullOr color;
+              default = "grey58";
+              example = "red";
+              description = "The color of this segment's text when VCS info is still loading, as an xterm color id or name";
+            };
+
+            # This one doesn't map directly to a single option; instead, it
+            # can be either:
+            #   - null,     in which case POWERLEVEL9K_VCS_DISABLE_GITSTATUS_FORMATTING=false
+            #               and no other variables are set
+            #   - a string, in which case:
+            #                 - POWERLEVEL9K_VCS_DISABLE_GITSTATUS_FORMATTING=true
+            #                 - POWERLEVEL9K_VCS_CONTENT_EXPANSION='${$((my_git_formatter(1)))+${my_git_format}}'
+            #                 - POWERLEVEL9K_VCS_LOADING_CONTENT_EXPANSION='${$((my_git_formatter(0)))+${my_git_format}}'
+            formatter = mkOption {
+              type = types.nullOr types.lines;
+              default = null;
+              description = ''
+                The body of the function used to format the git status part of the
+                prompt. Use `typeset -g my_git_format=result` at the end of your
+                function to set the result. See the gitstatusd reference for available
+                variables: https://github.com/romkatv/gitstatus/blob/master/gitstatus.plugin.zsh.
+                A set of pre-defined formatters are available under the `programs.zsh-powerlevel10k.git-formatters`
+                attr-set:
+                ${mkMDList (builtins.attrNames (import ./builtin-git-formatters.nix))}
+              '';
+              example = ''
+                emulate -L zsh
+
+                # just display 'git(current-branch-name)
+                typeset -g my_git_format='git:('"$VCS_STATUS_LOCAL_BRANCH"')'
+              '';
+            };
+
+            expression = mkOption {
+              type = types.str;
+              default = "$P9K_CONTENT";
+              example = "repo: $P9K_CONTENT";
+              description = ''
+                The expression to use for the element, where $P9K_CONTENT contains
+                the status text. See p10k's docs for allowed escape sequences.
+              '';
+            };
+
+            loading-expression = mkOption {
+              type = types.str;
+              default = "$P9K_CONTENT";
+              example = "repo(loading): $P9K_CONTENT";
+              description = ''
+                The expression to use for the element when VCS info is still
+                loading, where $P9K_CONTENT contains the status text. See p10k's
+                docs for allowed escape sequences.
+              '';
+            };
           };
 
-          # POWERLEVEL9K_VCS_FOREGROUND
-          foreground = mkOption {
-            type = types.nullOr color;
-            default = null;
-            example = "magenta";
-            description = "The color of this segment's text, as an xterm color id or name";
+          config = mkIf (config.formatter != null) {
+            expression = mkDefault "$\{$((my_git_formatter(1)))+$\{my_git_format}}";
+            loading-expression = mkDefault "$\{$((my_git_formatter(0)))+$\{my_git_format}}";
           };
-
-          # POWERLEVEL9K_VCS_LOADING_FOREGROUND
-          loading-foreground = mkOption {
-            type = types.nullOr color;
-            default = "grey58";
-            example = "red";
-            description = "The color of this segment's text when VCS info is still loading, as an xterm color id or name";
-          };
-
-          # This one doesn't map directly to a single option; instead, it
-          # can be either:
-          #   - null,     in which case POWERLEVEL9K_VCS_DISABLE_GITSTATUS_FORMATTING=false
-          #               and no other variables are set
-          #   - a string, in which case:
-          #                 - POWERLEVEL9K_VCS_DISABLE_GITSTATUS_FORMATTING=true
-          #                 - POWERLEVEL9K_VCS_CONTENT_EXPANSION='${$((my_git_formatter(1)))+${my_git_format}}'
-          #                 - POWERLEVEL9K_VCS_LOADING_CONTENT_EXPANSION='${$((my_git_formatter(0)))+${my_git_format}}'
-          formatter = mkOption {
-            type = types.nullOr types.lines;
-            default = null;
-            description = ''
-              The body of the function used to format the git status part of the
-              prompt. Use `typeset -g my_git_format=result` at the end of your
-              function to set the result. See the gitstatusd reference for available
-              variables: https://github.com/romkatv/gitstatus/blob/master/gitstatus.plugin.zsh.
-              A set of pre-defined formatters are available under the `programs.zsh-powerlevel10k.git-formatters`
-              attr-set:
-              ${mkMDList (builtins.attrNames (import ./builtin-git-formatters.nix))}
-            '';
-            example = ''
-              emulate -L zsh
-
-              # just display 'git(current-branch-name)
-              typeset -g my_git_format='git:('"$VCS_STATUS_LOCAL_BRANCH"')'
-            '';
-          };
-
-          expression = mkOption {
-            type = types.str;
-            default = "$P9K_CONTENT";
-            example = "repo: $P9K_CONTENT";
-            description = ''
-              The expression to use for the element, where $P9K_CONTENT contains
-              the status text. See p10k's docs for allowed escape sequences.
-            '';
-          };
-
-          loading-expression = mkOption {
-            type = types.str;
-            default = "$P9K_CONTENT";
-            example = "repo(loading): $P9K_CONTENT";
-            description = ''
-              The expression to use for the element when VCS info is still
-              loading, where $P9K_CONTENT contains the status text. See p10k's
-              docs for allowed escape sequences.
-            '';
-          };
-        };
-
-        config = mkIf (config.formatter != null) {
-          expression = mkDefault "$\{$((my_git_formatter(1)))+$\{my_git_format}}";
-          loading-expression = mkDefault "$\{$((my_git_formatter(0)))+$\{my_git_format}}";
-        };
-      });
+        }
+      );
     };
   };
 }

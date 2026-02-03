@@ -13,7 +13,8 @@
 
   bear,
   rust-cbindgen,
-}: buildRustPackage (finalAttrs: {
+}:
+buildRustPackage (finalAttrs: {
   pname = "nix-otel";
   version = "2023-08-06";
 

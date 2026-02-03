@@ -8,24 +8,26 @@ pkgs.testers.nixosTest (mkTest {
 
   client = { };
 
-  server = { ... }: {
-    services.hostrr = {
-      hosts = {
-        ".".links = {
-          "hello".file = pkgs.writeText "hello.txt" "hello world";
+  server =
+    { ... }:
+    {
+      services.hostrr = {
+        hosts = {
+          ".".links = {
+            "hello".file = pkgs.writeText "hello.txt" "hello world";
 
-          "social/md".url = "https://hachyderm.io/@blokyk";
-          "long".url = "/a/very/long/path";
-          "sc".url = "/social/md";
+            "social/md".url = "https://hachyderm.io/@blokyk";
+            "long".url = "/a/very/long/path";
+            "sc".url = "/social/md";
 
-          "robots.txt" = {
-            file = pkgs.writeText "robots.txt" "NO HUMANS HERE";
-            content-type = "text/x-robots";
+            "robots.txt" = {
+              file = pkgs.writeText "robots.txt" "NO HUMANS HERE";
+              content-type = "text/x-robots";
+            };
           };
         };
       };
     };
-  };
 
   testScript = ''
     resp = client.succeed("curl --fail http://server/hello")

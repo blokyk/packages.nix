@@ -1,13 +1,24 @@
-{ config, lib, options, pkgs, ... }:
+{
+  config,
+  lib,
+  options,
+  pkgs,
+  ...
+}:
 let
   inherit (lib)
-    filterAttrs filterAttrsRecursive
+    filterAttrs
+    filterAttrsRecursive
     getExe
-    mkIf mkDefault
-    mkEnableOption mkOption mkPackageOption
-    types;
+    mkIf
+    mkDefault
+    mkEnableOption
+    mkOption
+    mkPackageOption
+    types
+    ;
 
-  toml = pkgs.formats.toml {};
+  toml = pkgs.formats.toml { };
 
   opts = options.services.syncyomi;
   cfg = config.services.syncyomi;
@@ -16,7 +27,8 @@ let
   defaultLogFilePath = "/var/log/syncyomi/syncyomi.log";
 
   optName = name: "{option}`services.syncyomi.${name}`";
-in {
+in
+{
   options.services.syncyomi = {
     enable = mkEnableOption "Synchronize Tachiyomi forks across multiple devices";
     package = mkPackageOption pkgs "syncyomi" { };
@@ -60,7 +72,8 @@ in {
       };
 
       type = types.submodule (
-        { options, ... }: {
+        { options, ... }:
+        {
           freeformType = toml.type;
           options = {
             host = mkOption {
@@ -118,7 +131,13 @@ in {
             };
 
             logLevel = mkOption {
-              type = types.enum [ "ERROR" "DEBUG" "INFO" "WARN" "TRACE" ];
+              type = types.enum [
+                "ERROR"
+                "DEBUG"
+                "INFO"
+                "WARN"
+                "TRACE"
+              ];
               default = "DEBUG";
               example = "ERROR";
               description = ''
@@ -194,9 +213,7 @@ in {
           };
 
           # set logPath to /var/log/syncyomi/ if file logging is enabled
-          config.logPath =
-            mkIf cfg.settings.writeLogFile
-              (mkDefault defaultLogFilePath);
+          config.logPath = mkIf cfg.settings.writeLogFile (mkDefault defaultLogFilePath);
 
           config.assertions = [
             {
@@ -213,15 +230,15 @@ in {
               # don't generate the synthetic/special options
               isRealOption =
                 name: value:
-                  name != "writeLogFile" &&
-                  name != "sessionSecretFile" &&
-                  name != "assertions" &&
-                  name != "_confPath";
+                name != "writeLogFile"
+                && name != "sessionSecretFile"
+                && name != "assertions"
+                && name != "_confPath";
 
               onlyRealSettings = filterAttrs isRealOption cfg.settings;
               onlyNonNullSettings = (filterAttrsRecursive (_: val: val != null) onlyRealSettings);
             in
-              toml.generate "config.toml" onlyNonNullSettings
+            toml.generate "config.toml" onlyNonNullSettings
           );
         }
       );
@@ -230,85 +247,85 @@ in {
 
   config =
     let
-      hasCustomUser  = cfg.user  != opts.user.default;
+      hasCustomUser = cfg.user != opts.user.default;
       hasCustomGroup = cfg.group != opts.group.default;
     in
-      mkIf cfg.enable {
-        networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [ cfg.settings.port ];
+    mkIf cfg.enable {
+      networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [ cfg.settings.port ];
 
-        users.users = mkIf (!hasCustomUser) {
-          "${cfg.user}" = {
-            name = "${cfg.user}";
-            group = cfg.group;
-            isSystemUser = true;
-          };
-        };
-
-        users.groups = mkIf (!hasCustomGroup) {
-          "${cfg.group}" = { };
-        };
-
-        systemd.services.syncyomi = {
-          description = "Synchronize Tachiyomi across multiple devices.";
-
-          wantedBy = [ "multi-user.target" ];
-          wants = [ "network-online.target" ];
-          after = [ "network-online.target" ];
-
-          # replace the value of the secret before starting the app
-          script = ''
-            env - ${secretEnvName}="$(cat ${cfg.settings.sessionSecretFile})" \
-              ${getExe pkgs.envsubst} -no-unset -no-empty \
-                -i "${cfg.settings._confPath}" \
-                -o "''${STATE_DIRECTORY}/config.toml"
-            ${getExe cfg.package} --config "''${STATE_DIRECTORY}"
-          '';
-
-          serviceConfig = {
-            User = cfg.user;
-            Group = cfg.group;
-            DynamicUser = !hasCustomUser;
-
-            StateDirectory = "syncyomi";
-            RuntimeDirectory = "syncyomi";
-            LogsDirectory = "syncyomi";
-
-            Type = "simple";
-            Restart = mkDefault "on-failure";
-            RestartSec = mkDefault 5;
-
-            ReadOnlyPaths = [ cfg.settings.sessionSecretFile ];
-
-            LockPersonality = true;
-            NoNewPrivileges = true;
-            PrivateDevices = true;
-            PrivateMounts = true;
-            PrivateTmp = true;
-            PrivateUsers = true;
-            ProcSubset = "pid";
-            ProtectClock = true;
-            ProtectControlGroups = true;
-            ProtectHome = true;
-            ProtectKernelLogs = true;
-            ProtectKernelModules = true;
-            ProtectKernelTunables = true;
-            ProtectProc = "invisible";
-            ProtectSystem = "strict";
-            RestrictAddressFamilies = [
-              "AF_UNIX"
-              "AF_INET"
-              "AF_INET6"
-              "AF_NETLINK"
-            ];
-            RestrictNamespaces = "yes";
-            RestrictRealtime = true;
-            RestrictSUIDSGID = true;
-            SystemCallArchitectures = "native";
-            SystemCallFilter = [
-              "@system-service"
-              "~@privileged"
-            ];
-          };
+      users.users = mkIf (!hasCustomUser) {
+        "${cfg.user}" = {
+          name = "${cfg.user}";
+          group = cfg.group;
+          isSystemUser = true;
         };
       };
+
+      users.groups = mkIf (!hasCustomGroup) {
+        "${cfg.group}" = { };
+      };
+
+      systemd.services.syncyomi = {
+        description = "Synchronize Tachiyomi across multiple devices.";
+
+        wantedBy = [ "multi-user.target" ];
+        wants = [ "network-online.target" ];
+        after = [ "network-online.target" ];
+
+        # replace the value of the secret before starting the app
+        script = ''
+          env - ${secretEnvName}="$(cat ${cfg.settings.sessionSecretFile})" \
+            ${getExe pkgs.envsubst} -no-unset -no-empty \
+              -i "${cfg.settings._confPath}" \
+              -o "''${STATE_DIRECTORY}/config.toml"
+          ${getExe cfg.package} --config "''${STATE_DIRECTORY}"
+        '';
+
+        serviceConfig = {
+          User = cfg.user;
+          Group = cfg.group;
+          DynamicUser = !hasCustomUser;
+
+          StateDirectory = "syncyomi";
+          RuntimeDirectory = "syncyomi";
+          LogsDirectory = "syncyomi";
+
+          Type = "simple";
+          Restart = mkDefault "on-failure";
+          RestartSec = mkDefault 5;
+
+          ReadOnlyPaths = [ cfg.settings.sessionSecretFile ];
+
+          LockPersonality = true;
+          NoNewPrivileges = true;
+          PrivateDevices = true;
+          PrivateMounts = true;
+          PrivateTmp = true;
+          PrivateUsers = true;
+          ProcSubset = "pid";
+          ProtectClock = true;
+          ProtectControlGroups = true;
+          ProtectHome = true;
+          ProtectKernelLogs = true;
+          ProtectKernelModules = true;
+          ProtectKernelTunables = true;
+          ProtectProc = "invisible";
+          ProtectSystem = "strict";
+          RestrictAddressFamilies = [
+            "AF_UNIX"
+            "AF_INET"
+            "AF_INET6"
+            "AF_NETLINK"
+          ];
+          RestrictNamespaces = "yes";
+          RestrictRealtime = true;
+          RestrictSUIDSGID = true;
+          SystemCallArchitectures = "native";
+          SystemCallFilter = [
+            "@system-service"
+            "~@privileged"
+          ];
+        };
+      };
+    };
 }

@@ -5,7 +5,9 @@ let
     name = "= /" + name;
     value = config._location-config;
   };
-in cfg: mkIf cfg.enable {
+in
+cfg:
+mkIf cfg.enable {
 
   enableACME = cfg.enableHTTPS != false;
 
@@ -27,5 +29,6 @@ in cfg: mkIf cfg.enable {
         ${cfg.extraConfig}
       '';
     };
-  } // mapAttrs' mkLinkLocation cfg.links;
+  }
+  // mapAttrs' mkLinkLocation cfg.links;
 }
