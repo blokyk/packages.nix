@@ -29,9 +29,7 @@ stdenv.mkDerivation (finalAttrs: {
   outputHashMode = "flat";
   outputHash = "sha256-xk2nOqyjF3IEPlcA8qVQ+529fCJDPRsd+cdrqSmcrFQ=";
 
-  patchPhase = ''
-    runHook prePatch
-
+  postPatch = ''
     # set the version correctly
     substituteInPlace buildSrc/src/main/kotlin/Constants.kt \
       --replace-fail 'v2.1.''${getCommitCount()}' '${finalAttrs.version}'
@@ -41,8 +39,6 @@ stdenv.mkDerivation (finalAttrs: {
       --replace-fail 'Instant.now().epochSecond.toString()' '0'
 
     echo -e '\nkotlin.daemon.jvmargs=-Xmx4G' >> gradle.properties
-
-    runHook postPatch
   '';
 
   enableParallelBuilding = true;
