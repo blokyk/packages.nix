@@ -71,3 +71,36 @@ this channel is split up into three components, each of which has its own
 
 Read the README of each of these to see the available packages and modules, as
 well as more details about the installation/usage.
+
+## issues & features
+
+see the [issues tab](https://github.com/blokyk/packages.nix/issues) for a list
+of known issues i'd like to fix and features i'd love to add.
+
+please note that an issue being old and/or comment-less does not mean i'm not
+interested in fixing it! since i use this repo myself and have some
+time/priority constraints, i tend to mostly just do what works for me on
+personal projects, because they basically never get any outside attention.
+however, if you're using this a package or module from this repo, i'd be happy
+to fix any bug or missing feature you may encounter, so feel free to open an
+issue, or comment on an existing one (and mention me if you do!).
+
+however, please write your issue yourself. i'd prefer reading a clunky, concise
+bug report, or unclear feature request, rather than the 5-paragraph *pavés* of
+ai-generated slop i've encountered before.
+
+## contributing
+
+just like issues, feel free to open a pr if you have any fix or feature you'd
+like to contribute back. even if you're not sure it would fit here or if it's
+quite correct, i'd be happy to help you push it over the finish line :)
+
+please note that, just like issues, this repo will only be accepting
+human-generated code/documentation. again, mid code/docs that had a creation
+and thought process behind them are easier to deal with and fix than statistical
+noise. not respecting this rule will get your pr closed without debate, sorry.
+
+## license
+
+unless otherwise specified, all code in this repository is licensed under the
+MIT license.

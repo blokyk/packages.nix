@@ -8,4 +8,6 @@ supports adding shortlinks that can serve static files or redirect to URLs.
 For now, it only supports NGINX. Also all that DNS stuff isn't done yet (gotta
 write my long-awaited dns module first...), sorry.
 
-TODO: add `hostrr` docs (in the meantime you can look at the tests i guess?)
+todo: add `hostrr` docs. in the meantime you can look at my uses of it for
+[flink-shortening](https://github.com/blokyk/naqi.nix/blob/555d57b/site/links.nix)
+and [reverse-proxying](https://github.com/blokyk/naqi.nix/blob/555d57b/site/hosts.nix).
