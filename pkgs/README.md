@@ -10,6 +10,8 @@ A few nix packages I wrote (how surprising!). Currently available:
   LaTeX and typst web editor
 - [`suwayomi/suwayomi-server`](https://github.com/Suwayomi/Suwayomi-Server), a
   self-hostable cross-platform port/clone of Tachiyomi/Mihon.
+- [`plp13/qman`](https://github.com/plp13/qman), a modern manual viewer for the
+  terminal
 
 See [the notes](#notes) on each package for more information.
 
