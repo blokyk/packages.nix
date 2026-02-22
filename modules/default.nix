@@ -1,15 +1,17 @@
-{ lib, ... }:
+{ ... }:
 let
+  inherit (builtins) attrNames filter readDir;
+  filterAttrs = pred: set: removeAttrs set (filter (name: !pred name set.${name}) (attrNames set));
+
   # function to get all (non-recursive) sub folders of a given Path
   listDirectories =
     path:
     let
-      dirEntries = lib.attrNames (
-        lib.filterAttrs (entry: kind: kind == "directory") (builtins.readDir path)
+      dirEntries = attrNames (
+        filterAttrs (entry: kind: kind == "directory") (readDir path)
       );
     in
-    map (lib.path.append path) dirEntries;
-in
-{
+    map (subpath: path + ("/" + subpath)) dirEntries;
+in {
   imports = listDirectories ./.;
 }
