@@ -25,7 +25,7 @@ buildRustPackage (finalAttrs: {
     sha256 = "sha256-309qtll7z94fTzTSlhyl2EkrQldp681MpRrpd+qhupo=";
   };
 
-  cargoLock.lockFile = "${finalAttrs.src}/Cargo.lock";
+  cargoHash = "sha256-ePOzfob5FjpbThudEBDI10FVP3HMoP52nzuglZhk0wo=";
 
   nativeBuildInputs = [
     pkg-config
