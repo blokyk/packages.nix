@@ -12,6 +12,10 @@ A few nix packages I wrote (how surprising!). Currently available:
   self-hostable cross-platform port/clone of Tachiyomi/Mihon.
 - [`plp13/qman`](https://github.com/plp13/qman), a modern manual viewer for the
   terminal
+- [`Jkeyuk/JDbrowser`](https://github.com/Jkeyuk/JDbrowser), a terminal SQLite
+  database browser
+- [`mcy/voltorb`](https://github.com/mcy/voltorb), an port of pokemon's Voltorb
+  Flip to the terminal
 
 See [the notes](#notes) on each package for more information.
 
