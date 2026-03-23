@@ -32,6 +32,7 @@
 
       hm-modules = {
         zsh-powerlevel10k = ./hm-modules/zsh-powerlevel10k;
+        ringboard = ./hm-modules/ringboard;
       };
     };
 }
