@@ -253,8 +253,8 @@ with lib;
           };
 
           config = mkIf (config.formatter != null) {
-            expression = mkDefault "$\{$((my_git_formatter(1)))+$\{my_git_format}}";
-            loading-expression = mkDefault "$\{$((my_git_formatter(0)))+$\{my_git_format}}";
+            expression = mkDefault "\${$((my_git_formatter(1)))+\${my_git_format}}";
+            loading-expression = mkDefault "\${$((my_git_formatter(0)))+\${my_git_format}}";
           };
         }
       );
