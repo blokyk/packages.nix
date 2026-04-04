@@ -28,6 +28,8 @@ I'll try to find the time.
   database browser
 - [`mcy/voltorb`](https://github.com/mcy/voltorb), an port of pokemon's Voltorb
   Flip to the terminal
+- [`joedefen/grub-wiz`](https://github.com/joedefen/grub-wiz), a TUI for editing
+  grub configurations
 
 See [the notes](#notes) on each package for more information.
 
