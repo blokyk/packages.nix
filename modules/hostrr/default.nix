@@ -115,7 +115,7 @@ in
           extraConfig = mkOption {
             type = attrs;
             default = {};
-            description = "Extra nginx configuration for {option}`services.nginx.virtualHost.<name>`";
+            description = "Extra nginx configuration for {option}`services.nginx.virtualHosts.<name>`";
           };
         };
 
@@ -127,7 +127,7 @@ in
   config.assertions =
     let
       assertAtLeastPortOrLinkOrConfig = cfg: {
-        assertion = (!cfg.enable) || (cfg.port != null) || (cfg.links != { }) || (cfg.extraConfig != { });
+        assertion = cfg.enable -> ((cfg.port != null) || (cfg.links != { }) || (cfg.extraConfig != { }));
         message = ''
           You have to either specify a service's port to proxy to, or a list of short links to serve/redirect (or both)
         '';
