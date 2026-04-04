@@ -8,8 +8,6 @@ Some of these might already exist in nixpkgs, but the versions here are either
 patched or packaged differently (e.g. suwayomi is built from source here,
 whereas nixpkgs simply pulls a release tarball for it).
 
-- [`mtlynch/picoshare`](https://github.com/mtlynch/picoshare/), a minimal
-  self-hostable file-sharing service
 - [`suwayomi/suwayomi-server`](https://github.com/Suwayomi/Suwayomi-Server), a
   self-hostable cross-platform port/clone of Tachiyomi/Mihon
 - [`plp13/qman`](https://github.com/plp13/qman), a modern manual viewer for the
