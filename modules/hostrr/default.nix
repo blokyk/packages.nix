@@ -113,9 +113,9 @@ in
           };
 
           extraConfig = mkOption {
-            type = lines;
-            default = "";
-            description = "Extra nginx configuration to add to the root location declaration";
+            type = attrs;
+            default = {};
+            description = "Extra nginx configuration for {option}`services.nginx.virtualHost.<name>`";
           };
         };
 
@@ -126,14 +126,14 @@ in
 
   config.assertions =
     let
-      assertAtLeastPortOrLink = cfg: {
-        assertion = (!cfg.enable) || (cfg.port != null) || (cfg.links != { });
+      assertAtLeastPortOrLinkOrConfig = cfg: {
+        assertion = (!cfg.enable) || (cfg.port != null) || (cfg.links != { }) || (cfg.extraConfig != { });
         message = ''
           You have to either specify a service's port to proxy to, or a list of short links to serve/redirect (or both)
         '';
       };
     in
-    map assertAtLeastPortOrLink (lib.attrValues cfg.hosts);
+    map assertAtLeastPortOrLinkOrConfig (lib.attrValues cfg.hosts);
 
   config.services.nginx = lib.mkIf cfg.enable {
     enable = true;

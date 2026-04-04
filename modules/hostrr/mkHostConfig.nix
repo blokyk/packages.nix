@@ -18,17 +18,22 @@ let
       send_timeout ${toString cfg.timeout};
     '';
   };
+
+  autoConfig = {
+    enableACME = cfg.enableHTTPS != false;
+
+    # these two options are mutually exclusive:
+    # `addSSL` allows both http and https, and `forceSSL` forces http conns to be https
+    addSSL = cfg.enableHTTPS == "both";
+    forceSSL = cfg.enableHTTPS == true;
+
+    locations = lib.mkMerge [
+      { "/" = mkIf (cfg.port != null) baseLocationConfig; }
+      (mapAttrs' mkLinkLocation cfg.links)
+    ];
+  };
 in
-mkIf cfg.enable {
-  enableACME = cfg.enableHTTPS != false;
-
-  # these two options are mutually exclusive:
-  # `addSSL` allows both http and https, and `forceSSL` forces http conns to be https
-  addSSL = cfg.enableHTTPS == "both";
-  forceSSL = cfg.enableHTTPS == true;
-
-  locations = lib.mkMerge [
-    { "/" = mkIf (cfg.port != null) baseLocationConfig; }
-    (mapAttrs' mkLinkLocation cfg.links)
-  ];
-}
+mkIf cfg.enable (lib.mkMerge [
+  autoConfig
+  cfg.extraConfig
+])
