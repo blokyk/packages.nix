@@ -1,17 +1,29 @@
 # zoë's nix packages
 
-A few nix packages I wrote (how surprising!). Currently available:
+A few things I packaged with nix.
+
+There's a few ones I use everyday, which I "actively maintain," and are thus
+very unlikely to be broken (and if they are, please open an issue to notify me!).
+Some of these might already exist in nixpkgs, but the versions here are either
+patched or packaged differently (e.g. suwayomi is built from source here,
+whereas nixpkgs simply pulls a release tarball for it).
 
 - [`mtlynch/picoshare`](https://github.com/mtlynch/picoshare/), a minimal
   self-hostable file-sharing service
+- [`suwayomi/suwayomi-server`](https://github.com/Suwayomi/Suwayomi-Server), a
+  self-hostable cross-platform port/clone of Tachiyomi/Mihon
+- [`plp13/qman`](https://github.com/plp13/qman), a modern manual viewer for the
+  terminal
+
+I also package things for fun or for one-time use, but still publish them here
+for convenience and posterity. They are more likely to be broken, though if you
+rely on them, I'd be happy to fix them; you just gotta open an issue for it, and
+I'll try to find the time.
+
 - [`blokyk/nix-otel`](https://github.com/blokyk/nix-otel), an updated fork of
   [`lf-/nix-otel`](https://github.com/lf-/nix-otel)
 - [`TeXlyre/TeXlyre`](https://github.com/texlyre/texlyre), a self-hostable
   LaTeX and typst web editor
-- [`suwayomi/suwayomi-server`](https://github.com/Suwayomi/Suwayomi-Server), a
-  self-hostable cross-platform port/clone of Tachiyomi/Mihon.
-- [`plp13/qman`](https://github.com/plp13/qman), a modern manual viewer for the
-  terminal
 - [`Jkeyuk/JDbrowser`](https://github.com/Jkeyuk/JDbrowser), a terminal SQLite
   database browser
 - [`mcy/voltorb`](https://github.com/mcy/voltorb), an port of pokemon's Voltorb
