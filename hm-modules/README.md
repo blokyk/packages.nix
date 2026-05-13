@@ -3,9 +3,10 @@
 A small collection of *`home-manager`* modules I wrote. Each module has its
 documentation in its own folder's README:
 
-- [`zsh-powerlevel10k`](./zsh-powerlevel10k/README.md)
-- [`ringboard`](./ringboard/)
 - [`hm-utils`](./hm-utils/)
+- [`ringboard`](./ringboard/)
+- [`zsh-powerlevel10k`](./zsh-powerlevel10k/README.md)
+- [`zsh-uitls`](./zsh-uitls/README.md)
 
 ## Usage
 
