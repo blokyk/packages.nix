@@ -1,0 +1,140 @@
+diff --git a/fn/-z4h-compinit b/fn/-z4h-compinit
+index 9650bbe..3abea05 100644
+--- a/fn/-z4h-compinit
++++ b/fn/-z4h-compinit
+@@ -35,7 +35,7 @@ fi
+ 
+ local dump
+ zstyle -s ':z4h:compinit' dump-path dump
+-: ${dump:=$Z4H/cache/zcompdump-$EUID-$ZSH_VERSION}
++: ${dump:=${Z4H_CACHE:-$Z4H/cache}/zcompdump-$EUID-$ZSH_VERSION}
+ 
+ local -a stat files=(${^fpath}/^([^_]*|*~|*.zwc)(-.N))
+ (( ! $#files )) || zstat -A stat +mtime -- $files
+diff --git a/fn/-z4h-direnv-init b/fn/-z4h-direnv-init
+index c6c5f40..0b26cf7 100644
+--- a/fn/-z4h-direnv-init
++++ b/fn/-z4h-direnv-init
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env zsh
+ 
+-local direnv cache=$Z4H/cache/direnv
++local direnv cache=${Z4H_CACHE:-$Z4H/cache}/direnv
+ if [[ -e $cache ]]; then
+   builtin source -- $cache || return
+   [[ -n $direnv ]] || return '_z4h_err()'
+diff --git a/fn/-z4h-gen-init-darwin-paths b/fn/-z4h-gen-init-darwin-paths
+index 16a896f..0bfe7c0 100644
+--- a/fn/-z4h-gen-init-darwin-paths
++++ b/fn/-z4h-gen-init-darwin-paths
+@@ -16,7 +16,7 @@ script="$(PATH= MANPATH= $deps[1] -s)" || return
+ 
+ (
+   eval "$script" || return
+-  >$Z4H/cache/init-darwin-paths.tmp.$$ print -r -- '() {
++  >${Z4H_CACHE:-$Z4H/cache}/init-darwin-paths.tmp.$$ print -r -- '() {
+   local deps=('${(@q)deps}')
+   local -a stat files=($~deps)
+   [[ ${(j: :)${(@q)files}} == '${(q)${(j: :)${(@q)files}}}' ]] &&
+@@ -28,5 +28,5 @@ script="$(PATH= MANPATH= $deps[1] -s)" || return
+     manpath=(${manpath_dirs:|manpath} $manpath)
+   }
+ }' || return
+-  zf_mv -f -- $Z4H/cache/init-darwin-paths.tmp.$$ $Z4H/cache/init-darwin-paths
++  zf_mv -f -- ${Z4H_CACHE:-$Z4H/cache}/init-darwin-paths.tmp.$$ ${Z4H_CACHE:-$Z4H/cache}/init-darwin-paths
+ )
+diff --git a/fn/-z4h-init-zle b/fn/-z4h-init-zle
+index d8c343f..d9d38f3 100644
+--- a/fn/-z4h-init-zle
++++ b/fn/-z4h-init-zle
+@@ -693,7 +693,7 @@ zstyle ':completion:*:parameters'    ignored-patterns  \
+ 
+ if (( ! _z4h_dangerous_root )); then
+   zstyle ':completion:*'             use-cache         "true"
+-  zstyle ':completion:*'             cache-path        "$Z4H/cache/zcompcache-$ZSH_VERSION"
++  zstyle ':completion:*'             cache-path        "${Z4H_CACHE:-$Z4H/cache}/zcompcache-$ZSH_VERSION"
+ fi
+ 
+ zstyle ':completion:*:ssh:argument-1:*'                    sort             'true'
+diff --git a/fn/-z4h-install-many b/fn/-z4h-install-many
+index 32de43a..7302f48 100644
+--- a/fn/-z4h-install-many
++++ b/fn/-z4h-install-many
+@@ -10,7 +10,7 @@ local success
+     if zstyle -s :z4h: auto-update-days days && [[ $days == <-> ]]; then
+       # Check if update is required.
+       local -a last_update_ts
+-      if zstat -A last_update_ts +mtime -- $Z4H/cache/last-update-ts 2>/dev/null &&
++      if zstat -A last_update_ts +mtime -- ${Z4H_CACHE:-$Z4H/cache}/last-update-ts 2>/dev/null &&
+         (( EPOCHSECONDS - last_update_ts[1] >= 86400 * days )) &&
+         [[ ! -e $Z4H/.updating ]]; then
+         local REPLY
+@@ -19,7 +19,7 @@ local success
+         } always {
+           print -u ${_z4h_tty_fd-2}
+         }
+-        print -n >$Z4H/cache/last-update-ts || return
++        print -n >${Z4H_CACHE:-$Z4H/cache}/last-update-ts || return
+         if [[ $REPLY == y ]]; then
+           z4h update && return
+         fi
+diff --git a/fn/-z4h-postinstall-powerlevel10k b/fn/-z4h-postinstall-powerlevel10k
+index b9502fe..38b8dd4 100644
+--- a/fn/-z4h-postinstall-powerlevel10k
++++ b/fn/-z4h-postinstall-powerlevel10k
+@@ -2,7 +2,7 @@
+ 
+ eval "$_z4h_opt"
+ 
+-zf_mkdir -p -- $Z4H/cache/powerlevel10k/p10k-root || return
++zf_mkdir -p -- ${Z4H_CACHE:-$Z4H/cache}/powerlevel10k/p10k-root || return
+ 
+ if [[ $GITSTATUS_AUTO_INSTALL != 0 ]]; then
+   if [[ -e $Z4H/.updating ]]; then
+diff --git a/main.zsh b/main.zsh
+index bca1819..38dd2b9 100644
+--- a/main.zsh
++++ b/main.zsh
+@@ -77,9 +77,9 @@ function -z4h-init-homebrew() {
+ }
+ 
+ if [[ $OSTYPE == darwin* ]]; then
+-  if [[ ! -e $Z4H/cache/init-darwin-paths ]] || ! source $Z4H/cache/init-darwin-paths; then
++  if [[ ! -e ${Z4H_CACHE:-$Z4H/cache}/init-darwin-paths ]] || ! source ${Z4H_CACHE:-$Z4H/cache}/init-darwin-paths; then
+     autoload -Uz $Z4H/zsh4humans/fn/-z4h-gen-init-darwin-paths
+-    -z4h-gen-init-darwin-paths && source $Z4H/cache/init-darwin-paths
++    -z4h-gen-init-darwin-paths && source ${Z4H_CACHE:-$Z4H/cache}/init-darwin-paths
+   fi
+   [[ -z $HOMEBREW_PREFIX ]] && -z4h-init-homebrew {/opt/homebrew,/usr/local}/bin/brew(N)
+ elif [[ $OSTYPE == linux* && -z $HOMEBREW_PREFIX ]]; then
+@@ -123,10 +123,10 @@ fi
+ path+=($Z4H/fzf/bin)
+ manpath+=($Z4H/fzf/man)
+ 
+-: ${GITSTATUS_CACHE_DIR=$Z4H/cache/gitstatus}
++: ${GITSTATUS_CACHE_DIR=${Z4H_CACHE:-$Z4H/cache}/gitstatus}
+ : ${ZSH=$Z4H/ohmyzsh/ohmyzsh}
+ : ${ZSH_CUSTOM=$Z4H/ohmyzsh/ohmyzsh/custom}
+-: ${ZSH_CACHE_DIR=$Z4H/cache/ohmyzsh}
++: ${ZSH_CACHE_DIR=${Z4H_CACHE:-$Z4H/cache}/ohmyzsh}
+ 
+ [[ $terminfo[Tc] == yes && -z $COLORTERM ]] && export COLORTERM=truecolor
+ 
+@@ -402,7 +402,7 @@ function -z4h-cmd-init() {
+       typeset -gri _z4h_can_save_restore_screen=0  # this parameter is read by p10k
+     fi
+ 
+-    if (( _z4h_zle )) && zstyle -t :z4h:direnv enable && [[ -e $Z4H/cache/direnv ]]; then
++    if (( _z4h_zle )) && zstyle -t :z4h:direnv enable && [[ -e ${Z4H_CACHE:-$Z4H/cache}/direnv ]]; then
+       -z4h-direnv-init 0 || return '_z4h_err()'
+     fi
+ 
+@@ -419,7 +419,7 @@ function -z4h-cmd-init() {
+   # Enable Powerlevel10k instant prompt.
+   (( ! _z4h_zle )) || zstyle -t :z4h:powerlevel10k channel none || () {
+     local user=${(%):-%n}
+-    local XDG_CACHE_HOME=$Z4H/cache/powerlevel10k
++    local XDG_CACHE_HOME=${Z4H_CACHE:-$Z4H/cache}/powerlevel10k
+     [[ -r $XDG_CACHE_HOME/p10k-instant-prompt-$user.zsh ]] || return 0
+     builtin source $XDG_CACHE_HOME/p10k-instant-prompt-$user.zsh
+   }
