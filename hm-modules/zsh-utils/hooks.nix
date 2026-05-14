@@ -42,6 +42,9 @@ in {
           (hook: lib.concatMapStringsSep "\n" (func: "add-zsh-hook ${hook} ${func}"))
           cfg.hooks;
       in
-        lib.mkAfter (lib.concatLines hookLines);
+        lib.mkAfter ''
+          autoload -Uz add-zsh-hook
+          ${lib.concatLines hookLines}
+        '';
   };
 }
