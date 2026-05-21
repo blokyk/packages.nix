@@ -100,8 +100,6 @@ buildNpmPackage (finalAttrs: {
     license = lib.licenses.agpl3Only;
     platforms = lib.platforms.linux;
     mainProgram = "texlyre";
-    maintainers = with lib.maintainers; [
-      blokyk
-    ];
+    maintainers = with lib.maintainers; [ blokyk ];
   };
 })

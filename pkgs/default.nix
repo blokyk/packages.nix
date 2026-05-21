@@ -5,9 +5,8 @@
 let
   inherit (pkgs.lib) filterAttrs isDerivation packagesFromDirectoryRecursive;
 
-  newpkgs = pkgs.extend (import ../maintainers.nix).overlay;
   zpkgs = packagesFromDirectoryRecursive {
-    inherit (newpkgs) callPackage newScope;
+    inherit (pkgs) callPackage newScope;
     directory = ./.;
   };
 in

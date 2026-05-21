@@ -92,4 +92,6 @@ in
       Description = "Ringboard clipboard services";
     };
   };
+
+  meta.maintainers = with lib.maintainers; [ blokyk ];
 }

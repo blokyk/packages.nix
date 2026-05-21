@@ -124,7 +124,7 @@ in
     };
 
   meta = {
-    maintainers = [ (import ../../maintainers.nix).blokyk ];
+    maintainers = with lib.maintainers; [ blokyk ];
     # doc = ./README.md;
   };
 }
