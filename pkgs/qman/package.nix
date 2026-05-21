@@ -61,7 +61,7 @@ stdenv.mkDerivation (finalAttrs: {
     description = "A more modern man page viewer";
     homepage = "https://github.com/plp13/qman";
     license = lib.licenses.bsd2;
-    platforms = [ lib.platforms.linux ];
+    platforms = lib.platforms.linux;
     maintainers = with lib.maintainers; [ blokyk ];
     mainProgram = "qman";
   };

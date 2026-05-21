@@ -48,7 +48,7 @@ buildRustPackage (finalAttrs: {
     description = "Fork of lf-'s 'nix-otel', a Nix OpenTelemetry sender plugin.";
     homepage = "https://github.com/blokyk/nix-otel";
     license = lib.licenses.mit;
-    platforms = [ lib.platforms.linux ];
+    platforms = lib.platforms.linux;
     maintainers = with lib.maintainers; [ blokyk ];
   };
 })
