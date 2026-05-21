@@ -25,7 +25,7 @@ buildRustPackage (finalAttrs: {
     description = "A terminal SQLite database browser, written in Rust.";
     homepage = "https://github.com/Jkeyuk/JDbrowser";
     license = lib.licenses.gpl3Plus;
-    platform = lib.platforms.linux;
+    platforms = [ lib.platforms.linux ];
     maintainers = with lib.maintainers; [ blokyk ];
     mainProgram = "jdbrowser";
   };

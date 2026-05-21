@@ -34,6 +34,7 @@ python3Packages.buildPythonApplication (finalAttrs: {
   meta = {
     description = "GrubWiz: The Helpful GRUB Bootloader Assistant";
     homepage = "https://github.com/joedefen/grub-wiz";
+    platforms = [ lib.platforms.linux ];
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [ blokyk ];
     mainProgram = "grub-wiz";
