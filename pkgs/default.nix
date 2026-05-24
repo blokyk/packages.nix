@@ -7,10 +7,13 @@ let
 
   zpkgs = packagesFromDirectoryRecursive {
     inherit (pkgs) callPackage newScope;
-    directory = ./.;
+    directory = builtins.path {
+      path = ./.;
+      filter = path: type:
+        let filename = baseNameOf path; in
+        filename != "default.nix" && filename != "npins" && type != "symlink";
+      recursive = true;
+    };
   };
 in
-  # only keep attrs that are derivations, since we don't use namespaces
-  # (also exclude the `default` attr immediately, which is this
-  # expression, which would cause infinite recursion)
-  filterAttrs (name: val: name != "default" && isDerivation val) zpkgs
+  zpkgs
