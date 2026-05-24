@@ -1,6 +1,6 @@
+let pins = import ../npins {}; in
 {
-  pkgs ? import <nixpkgs> { },
-  ...
+  pkgs ? import pins.nixpkgs {}
 }:
 let
   inherit (pkgs.lib) filterAttrs isDerivation packagesFromDirectoryRecursive;

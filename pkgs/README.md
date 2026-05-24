@@ -49,8 +49,8 @@ in {
 }
 ```
 
-By default, if no `pkgs` argument is provided, it will `import <nixpkgs>`. If
-needed, you can also pass specific `pkgs` objects. For example:
+By default, if no `pkgs` argument is provided, it will use a pinned version of
+nixpkgs. If needed, you can also pass specific `pkgs` objects. For example:
 
 ```nix
 let
