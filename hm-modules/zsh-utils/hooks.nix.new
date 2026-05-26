@@ -1,0 +1,112 @@
+{ config, lib, ... }:
+let
+  inherit (lib.types) attrsOf coercedTo lines listOf nullOr str submodule;
+  inherit (lib.options) mkOption;
+  cfg = config.programs.zsh;
+
+  funcName = srcOrFunc:
+    if srcOrFunc.source != null then
+      "__hookfunc_${builtins.hashString srcOrFunc.source}"
+    else
+      srcOrFunc.function;
+
+  hookType = submodule ({ config, name, ... }: {
+    options = {
+      source = mkOption {
+        type = nullOr lines;
+        description = ''
+          Command(s) or code to run for this hook.
+        '';
+        example = ''
+          echo "Time before exec: $(date)"
+        '';
+      };
+
+      function = mkOption {
+        type = nullOr str;
+        description = ''
+          Function to call when running this hook.
+        '';
+        example = ''
+          ls_after_cd
+        '';
+      };
+    };
+
+    config =
+      # make sure that only one (or neither) of `source` and `function` are set at the same time
+      lib.mkAssert (
+        (config.source   != null -> config.function == null) &&
+        (config.function != null -> config.source   == null)
+      ) ''
+        One of the values for `programs.zsh.hooks.${name}` has both a function and 
+      '' {};
+  });
+in {
+  options = {
+    # todo: check that the name of the hook is valid?
+    # honestly, we could make each hook value have an optional
+    # flag that says "this is a command, please generate a function for it k thx xoxo"
+    programs.zsh.hooks = mkOption {
+      type = attrsOf (
+        coercedTo
+          hookType
+          lib.singleton
+          (listOf hookType)
+      );
+      description = ''
+        A set of commans or named functions to run when the given action (hook) is done.
+        Valid hooks are:
+          - chpwd
+          - precmd
+          - preexec
+          - periodic
+          - zshaddhistory
+          - zshexit
+          - zsh_directory_name
+        See `zshmisc(1)`, section "SPECIAL FUNCTIONS", header "Hook Functions" for their behaviour.
+        See `zshexpn(1)`, section "FILENAME EXPANSION", header "Dynamic named directories" for the behaviour of `zsh_directory_name`.
+      '';
+      example = {
+        chpwd.function = "ls_after_cd";
+        preexec.source = "date";
+      };
+    };
+  };
+
+  config = {
+    # this automaticaly generates functions for any hook declared with `.source`
+    programs.zsh.siteFunctions =
+      let
+        inherit (lib) concatLists filter genAttrs' mapAttrsToList;
+
+        onlySourceHooks = concatLists (
+          mapAttrsToList
+            (hook: vals: filter (val: val.source != null) vals)
+            cfg.hooks
+        );
+      in
+        genAttrs'
+          onlySourceHooks
+          (script: {
+            name = funcName script;
+            value = script.source;
+          });
+
+    programs.zsh.initContent =
+      let
+        hookLines = lib.mapAttrsToList
+          (hook: lib.concatMapStringsSep "\n" (funcOrSource:
+            if (funcOrSource.function == null && funcOrSource.source == null) then
+              ""
+            else
+              "add-zsh-hook ${hook} ${funcName funcOrSource}"
+          ))
+          cfg.hooks;
+      in
+        lib.mkAfter ''
+          autoload -Uz add-zsh-hook
+          ${lib.concatLines hookLines}
+        '';
+  };
+}

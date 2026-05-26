@@ -5,6 +5,7 @@ documentation in its own folder's README:
 
 - [`hm-utils`](./hm-utils/README.md)
 - [`ringboard`](./ringboard/README.md)
+- [`z3h`](./z3h/README.md) (a z4h partial reimplementation)
 - [`z4h`](./z4h/README.md)
 - [`zsh-powerlevel10k`](./zsh-powerlevel10k/README.md)
 - [`zsh-utils`](./zsh-utils/README.md)

@@ -19,16 +19,7 @@ let
 
   inherit (lib.options) mkEnableOption mkOption literalExpression literalMD;
 
-  # fixme: we should probably patch it so that it never tries to write
-  # stuff to $Z4H/**/*, since that will be read-only
-  # (e.g. it sometimes writes to $Z4H/cache or $Z4H/tmp)
-  # fixme: also we need to patch any attempt to read stuff from PATH
-  defaultPkg = pkgs.fetchFromGitHub {
-    owner = "romkatv";
-    repo = "zsh4humans";
-    rev = "cd6c4770c802c3a17b4c43e5587adabb9a370a75";
-    hash = "sha256-OMpcDS8S6OTVe7sC4iQ3LMpwNx2tcCBGBnORwL3ix6w=";
-  };
+  defaultPkg = pkgs.callPackage ./package.nix {};
 
   cmdType = nonEmptyListOf str;
   flagsType = nonEmptyListOf str;
