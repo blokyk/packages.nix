@@ -16,6 +16,7 @@ in {
           singleton
           (listOf str)
       );
+      default = {};
       description = ''
         A set of named functions (not commands!) to run when the given action (hook) is done.
         Valid hooks are:
