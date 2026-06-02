@@ -3,6 +3,7 @@
   config,
   lib,
   options,
+  pkgs,
   ...
 }:
 with lib;
@@ -15,7 +16,7 @@ in
 {
   options.services.picoshare = {
     enable = mkEnableOption "picoshare";
-    package = mkPackageOption (import ../../pkgs { }) "picoshare" { pkgsText = "zoeee/pkgs"; };
+    package = mkPackageOption pkgs "picoshare" {};
 
     openFirewall = mkOption {
       type = types.bool;
