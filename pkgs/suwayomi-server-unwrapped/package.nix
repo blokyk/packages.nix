@@ -15,24 +15,23 @@ let
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "suwayomi-server";
-  version = "2.1.2061";
-  rev = "a58dcc6f19cf0f1ea27c0042f6e229d7bb3ff8af";
+  version = "2.2.2100";
 
   src = fetchFromGitHub {
     owner = "Suwayomi";
     repo = "Suwayomi-Server";
-    rev = finalAttrs.rev;
-    hash = "sha256-7ckf4TVOfgZQyivNkzi6aWNU/r9DTbGsVaPwmtJr5Vg=";
+    rev = "v${finalAttrs.version}";
+    hash = "sha256-RPVz2BDBtFXmXzc3DlSIzkwsjfd+WNGV3O0llJF4P1A=";
   };
 
   outputHashAlgo = "sha256";
   outputHashMode = "flat";
-  outputHash = "sha256-xk2nOqyjF3IEPlcA8qVQ+529fCJDPRsd+cdrqSmcrFQ=";
+  outputHash = "sha256-G8pa7mbq1Qv7pptBFREY2zqXcmMZPKpK7UUxZB1euvE=";
 
   postPatch = ''
     # set the version correctly
     substituteInPlace buildSrc/src/main/kotlin/Constants.kt \
-      --replace-fail 'v2.1.''${getCommitCount()}' '${finalAttrs.version}'
+      --replace-fail 'v${lib.versions.majorMinor finalAttrs.version}.''${getCommitCount()}' '${finalAttrs.version}'
 
     # fix the build date to the unix epoch
     substituteInPlace server/build.gradle.kts \
