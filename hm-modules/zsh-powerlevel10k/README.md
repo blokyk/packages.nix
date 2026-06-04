@@ -19,3 +19,14 @@ at:
 > however, feel free to open issues or submit PRs (it's easier than it looks!)
 > if you want any option that isn't already exposed, and I'll try to get it as
 > soon as possible.
+
+> [!WARN]
+> If you use this module, `p10k configure` will not work out-of-the-box. If you
+> want to generate a config file to setup this module's options (or
+> `theme.extraConfig`) more easily, you can set `POWERLEVEL9K_CONFIG_FILE` to a
+> a temporary path when executing the command, and then inspect the resulting
+> file.
+> ```sh
+> $ POWERLEVEL9K_CONFIG_FILE=/tmp/p10k.zsh p10k configure
+> $ $EDITOR /tmp/p10k.zsh
+> ```
