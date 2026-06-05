@@ -197,7 +197,10 @@ let
   #   foo = [ "<Super>" "A" "<Ctrl>" "Z" ];
   # and good luck typing that regularly :p
   nonMergeableList = t: (types.nonEmptyListOf t) // {
-    merge = lib.options.mergeEqualOption;
+    merge = lib.options.mergeUniqueOption {
+      message = "Only one keybinding can be bound at a time.";
+      merge = (types.nonEmptyListOf t).merge;
+    };
   };
 
   # either a flat list like ["<Ctrl>" "C"], or a nested list of
