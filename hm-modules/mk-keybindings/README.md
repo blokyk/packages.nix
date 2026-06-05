@@ -14,12 +14,12 @@ For the end-user, the option is an attribute set mapping actions to a keybinding
 containing each individual key (with their GTK name, see the file for a list
 of all supported values).
 
-To use it, you can use `lib.importApply`:
+To use it, you can use `lib.modules.importApply`:
 
 ```nix
 { lib, ... }: {
   imports = [
-    (lib.importApply <zoeee/hm-modules/mk-keybindings> {
+    (lib.modules.importApply <zoeee/hm-modules/mk-keybindings> {
       optPath = [ "programs" "foo" "keybindings" ];
       prefixPath = [ "dconf" "settings" "org/foo/keybindings" ];
       # optional, see docs in file
