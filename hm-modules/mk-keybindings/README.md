@@ -12,7 +12,8 @@ that keybinding is reflected in the config (e.g. under which config option).
 For the end-user, the option is an attribute set mapping actions to a keybinding
 (or multiple, as support by some GNOME apps), which is represented as a list
 containing each individual key (with their GTK name, see the file for a list
-of all supported values).
+of all supported values). An action can also have its keybinding explicitly set
+to `null` to remove any default binding it might have.
 
 To use it, you can use `lib.modules.importApply`:
 
@@ -36,6 +37,9 @@ To use it, you can use `lib.modules.importApply`:
   programs.foo.keybindings = {
     # this will result in `dconf.settings."org/foo/keybindings".some-action = "<Alt><Super>Left"`
     some-action = ["<Alt>" "<Super>" "Left"];
+
+    # disable the default keybinding for the `default-popup` action
+    default-popup = null;
   };
 }
 ```
