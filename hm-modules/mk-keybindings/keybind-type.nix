@@ -184,7 +184,7 @@ let
       "a lowercase or uppercase latin letter, " +
       "a modifier (one of ${concatStringsSep ", " modifiers}), " +
       "a special keys (one of ${concatStringsSep ", " specialKeys}), " +
-      "an F key (frm F1 to F24), " +
+      "an F key (from F1 to F24), " +
       "or one of the XF86 keys"
       ;
   };
