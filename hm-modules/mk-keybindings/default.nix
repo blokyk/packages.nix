@@ -101,7 +101,7 @@ let
     ++ [ "1" "2" "3" "4" "5" "6" "7" "8" "9" ]
     ++ [ "²" "&" "\"" "'" "(" "-" "_" ")" "=" "^" "$" "*" "," ";" ":" "!" ]
     ++ [ "~" "#" "{" "[" "|" "`" "\\" "^" "@" "]" "}" ]
-    ++ lib.drop 1 (lib.genList (n: "F${toString n}") 25) # F1-F24
+    ++ (lib.genList (n: "F${toString (n+1)}") 24) # F1-F24
     ++ [
       "Up" "Down" "Left" "Right" "End"
       "space" "Space" "Above_Tab"
