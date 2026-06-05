@@ -1,6 +1,6 @@
 { lib, _check, multiKeybindings }:
 let
-  inherit (lib) types;
+  inherit (lib) genList concatStringsSep types;
 
   xf86keys = [
     "XF86AddFavorite"
@@ -149,28 +149,45 @@ let
     "XF86iTouch"
   ];
 
-  keys =
-    [
-      "<Primary>" "<Control>" "<Ctrl>" "<Ctl>"
-      "<Shift>" "<Shft>"
-      "<Alt>"
-      "<Meta>"
-      "<Super>" "<Hyper>"
-    ]
-    ++ lib.lowerChars
-    ++ lib.upperChars
-    ++ [ "é" "è" "ç" "à" "ù" ]
+  modifiers = [
+    "<Primary>" "<Control>" "<Ctrl>" "<Ctl>"
+    "<Shift>" "<Shft>"
+    "<Alt>"
+    "<Meta>"
+    "<Super>" "<Hyper>"
+  ];
+
+  specialKeys = [
+    "Up" "Down" "Left" "Right" "End"
+    "space" "Space" "Above_Tab"
+    "Home" "Print" "Escape"
+  ];
+
+  nonAlphaChars =
+       [ "é" "è" "ç" "à" "ù" ]
     ++ [ "1" "2" "3" "4" "5" "6" "7" "8" "9" ]
     ++ [ "²" "&" "\"" "'" "(" "-" "_" ")" "=" "^" "$" "*" "," ";" ":" "!" ]
-    ++ [ "~" "#" "{" "[" "|" "`" "\\" "^" "@" "]" "}" ]
-    ++ (lib.genList (n: "F${toString (n+1)}") 24) # F1-F24
+    ++ [ "~" "#" "{" "[" "|" "`" "\\" "^" "@" "]" "}" ];
+
+  keys =
+       modifiers
+    ++ lib.lowerChars
+    ++ lib.upperChars
+    ++ nonAlphaChars
+    ++ (genList (n: "F${toString (n+1)}") 24) # F1-F24
     ++ xf86keys
-    ++ [
-      "Up" "Down" "Left" "Right" "End"
-      "space" "Space" "Above_Tab"
-      "Home" "Print" "Escape"
-    ]
+    ++ specialKeys
   ;
+
+  keysType = types.enum keys // {
+    description =
+      "a lowercase or uppercase latin letter, " +
+      "a modifier (one of ${concatStringsSep ", " modifiers}), " +
+      "a special keys (one of ${concatStringsSep ", " specialKeys}), " +
+      "an F key (frm F1 to F24), " +
+      "or one of the XF86 keys"
+      ;
+  };
 
   # we don't want the module system to merge two declarations
   # of a single keybinding, because then
@@ -186,7 +203,7 @@ let
   # either a flat list like ["<Ctrl>" "C"], or a nested list of
   # different possible keybindings [ ["<Ctrl>" "C"] ["<Super>" "C"] ]
   keybindingsType = with types;
-    let singleKeybind = if _check then nonMergeableList (enum keys) else str; in
+    let singleKeybind = if _check then nonMergeableList keysType else str; in
     if multiKeybindings then
       # in case we support multiple keybindings, we need to transform
       # single keybinds into a singleton list, so that we support
