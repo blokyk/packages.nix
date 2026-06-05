@@ -87,57 +87,7 @@
 let
   inherit (lib) getAttrFromPath mapAttrs mapAttrsToList mkOption setAttrByPath types;
 
-  keys =
-    [
-      "<Primary>" "<Control>" "<Ctrl>" "<Ctl>"
-      "<Shift>" "<Shft>"
-      "<Alt>"
-      "<Meta>"
-      "<Super>" "<Hyper>"
-    ]
-    ++ lib.lowerChars
-    ++ lib.upperChars
-    ++ [ "é" "è" "ç" "à" "ù" ]
-    ++ [ "1" "2" "3" "4" "5" "6" "7" "8" "9" ]
-    ++ [ "²" "&" "\"" "'" "(" "-" "_" ")" "=" "^" "$" "*" "," ";" ":" "!" ]
-    ++ [ "~" "#" "{" "[" "|" "`" "\\" "^" "@" "]" "}" ]
-    ++ (lib.genList (n: "F${toString (n+1)}") 24) # F1-F24
-    ++ [
-      "Up" "Down" "Left" "Right" "End"
-      "space" "Space" "Above_Tab"
-      "Home" "Print" "Escape"
-      "XF86Keyboard"
-    ]
-  ;
-
-  # we don't want the module system to merge two declarations
-  # of a single keybinding, because then
-  #   foo = [ "<Super>" "A" ];
-  #   foo = [ "<Ctrl>"  "Z" ];
-  # would get merged into a single keybinding
-  #   foo = [ "<Super>" "A" "<Ctrl>" "Z" ];
-  # and good luck typing that regularly :p
-  nonMergeableList = t: (types.nonEmptyListOf t) // {
-    merge = lib.options.mergeEqualOption;
-  };
-
-  # either a flat list like ["<Ctrl>" "C"], or a nested list of
-  # different possible keybindings [ ["<Ctrl>" "C"] ["<Super>" "C"] ]
-  keybindingsType = with types;
-    let singleKeybind = if _check then nonMergeableList (enum keys) else string; in
-    if multiKeybindings then
-      # in case we support multiple keybindings, we need to transform
-      # single keybinds into a singleton list, so that we support
-      # merging multiple declarations correctly
-      coercedTo
-        singleKeybind
-        (val: [val])
-        # this list *is* mergeable because it's fine if
-        # there's multiple definitions for a single action,
-        # since this supports multiple keybindings
-        (nonEmptyListOf singleKeybind)
-    else
-      singleKeybind;
+  keybindingsType = import ./keybind-type.nix { inherit lib multiKeybindings _check; };
 
   opt = mkOption {
       type = with types; attrsOf (nullOr keybindingsType);
