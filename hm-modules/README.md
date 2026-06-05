@@ -9,6 +9,9 @@ documentation in its own folder's README:
 - [`zsh-powerlevel10k`](./zsh-powerlevel10k/README.md)
 - [`zsh-utils`](./zsh-utils/README.md)
 
+There is also a special utility "module" in [`mk-keybindings`](./mk-keybindings/README.md),
+mostly useful for module authors; check its documentation for more info.
+
 ## Usage
 
 These modules are written to be imported inside the user declaration:
