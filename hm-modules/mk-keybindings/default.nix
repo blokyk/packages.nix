@@ -89,6 +89,14 @@ let
 
   keybindingsType = import ./keybind-type.nix { inherit lib multiKeybindings _check; };
 
+  normalizeKey = key: {
+    "<Primary>" = "<Control>";
+    "<Control>" = "<Ctrl>";
+    "<Ctl>" = "<Ctrl>";
+    "<Shft>" = "<Shift>";
+    "space" = "Space";
+  }.${key} or key;
+
   opt = mkOption {
       type = with types; attrsOf (nullOr keybindingsType);
       default = { };
@@ -110,7 +118,7 @@ in {
           if keys == null then
             ""
           else
-            lib.concatStrings (map keyMapper keys);
+            lib.concatStrings (map (k: keyMapper (normalizeKey k)) keys);
         multiToKeysStr = bindings:
           if bindings == null then
             []
