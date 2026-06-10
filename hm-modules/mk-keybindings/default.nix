@@ -90,7 +90,7 @@ let
   keybindingsType = import ./keybind-type.nix { inherit lib multiKeybindings _check; };
 
   normalizeKey = key: {
-    "<Primary>" = "<Control>";
+    "<Primary>" = "<Ctrl>";
     "<Control>" = "<Ctrl>";
     "<Ctl>" = "<Ctrl>";
     "<Shft>" = "<Shift>";
