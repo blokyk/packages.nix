@@ -158,9 +158,10 @@ let
   ];
 
   specialKeys = [
-    "Up" "Down" "Left" "Right" "End"
-    "space" "Space" "Above_Tab"
-    "Home" "Print" "Escape"
+    "Up" "Down" "Left" "Right"
+    "PageUp" "PageDown"
+    "space" "Space" "Tab" "Above_Tab" "Backspace" "Delete"
+    "Home" "Print" "Escape" "Insert" "End"
   ];
 
   nonAlphaChars =
