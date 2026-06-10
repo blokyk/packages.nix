@@ -33,6 +33,7 @@
       hm-modules = {
         hm-utils = ./hm-modules/hm-utils;
         ringboard = ./hm-modules/ringboard;
+        zsh-patina = ./hm-modules/zsh-patina;
         zsh-powerlevel10k = ./hm-modules/zsh-powerlevel10k;
         zsh-utils = ./hm-modules/zsh-utils;
       };

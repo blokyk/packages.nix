@@ -6,6 +6,7 @@ documentation in its own folder's README:
 - [`hm-utils`](./hm-utils/README.md)
 - [`ringboard`](./ringboard/README.md)
 - [`z4h`](./z4h/README.md)
+- [`zsh-patina`](./zsh-patina/README.md)
 - [`zsh-powerlevel10k`](./zsh-powerlevel10k/README.md)
 - [`zsh-utils`](./zsh-utils/README.md)
 
