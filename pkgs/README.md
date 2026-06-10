@@ -10,8 +10,6 @@ whereas nixpkgs simply pulls a release tarball for it).
 
 - [`suwayomi/suwayomi-server`](https://github.com/Suwayomi/Suwayomi-Server), a
   self-hostable cross-platform port/clone of Tachiyomi/Mihon
-- [`plp13/qman`](https://github.com/plp13/qman), a modern manual viewer for the
-  terminal
 
 I also package things for fun or for one-time use, but still publish them here
 for convenience and posterity. They are more likely to be broken, though if you
@@ -28,6 +26,10 @@ I'll try to find the time.
   Flip to the terminal
 - [`joedefen/grub-wiz`](https://github.com/joedefen/grub-wiz), a TUI for editing
   grub configurations
+- [`plp13/qman`](https://github.com/plp13/qman), a modern manual viewer for the
+  terminal
+- [`michel-kraemer/zsh-patina`](https://github.com/michel-kraemer/zsh-patina),
+  a blazingly fast Zsh syntax highlighter
 
 See [the notes](#notes) on each package for more information.
 
