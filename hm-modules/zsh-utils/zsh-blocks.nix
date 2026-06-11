@@ -11,6 +11,14 @@ let
   cfg = config.programs.zsh;
 in {
   options = {
+    programs.zsh.initBlocksPriority = mkOption {
+      type = lib.types.int;
+      default = lib.modules.defaultOrderPriority;
+      description = ''
+        The priority (argument of `lib.mkOrder`) that will be used for inserting the final concatenated result of all the blocks.
+      '';
+    };
+
     programs.zsh.initBlocks = mkOption {
       type = lib.hm.types.dagOf types.lines;
       description = ''
@@ -53,6 +61,6 @@ in {
 
         '';
       in
-        concatMapStringsSep "\n" blockToString sortedNodes;
+        lib.mkOrder cfg.initBlocksPriority (concatMapStringsSep "\n" blockToString sortedNodes);
   };
 }
