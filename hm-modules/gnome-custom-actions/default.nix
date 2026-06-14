@@ -40,7 +40,7 @@ in {
   };
 
   config = {
-    dconf.settings =
+    dconf.settings = lib.mkIf (cfg != {}) (
       let
         actSpecs =
           let
@@ -66,6 +66,7 @@ in {
         lib.mkMerge [
           globalDecls
           actSpecs
-        ];
+        ]
+    );
   };
 }
