@@ -1,0 +1,14 @@
+
+-z4h-autosuggest-fetch
+if (( ${#POSTDISPLAY} == 0 || CURSOR < _z4h_cursor_max() )); then
+    _zsh_autosuggest_invoke_original_widget "$@"
+    return
+fi
+BUFFER="$BUFFER$POSTDISPLAY"
+region_highlight[-1]=()
+unset _z4h_autosuggestion POSTDISPLAY
+_zsh_autosuggest_invoke_original_widget "$@"
+local -i ret=$?
+typeset -g _z4h_autosuggest_buffer="$BUFFER"
+typeset -gi CURSOR='_z4h_cursor_max()'
+return ret

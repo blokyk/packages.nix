@@ -1,0 +1,6 @@
+
+if (( $+terminfo[civis] && $+terminfo[cnorm] )) && [[ -v _z4h_tty_fd ]]; then
+    # See https://github.com/romkatv/powerlevel10k/issues/1699.
+    local cnorm=${${terminfo[cnorm]-}:/*$'\e[?25h'(|'\e'*)/$'\e[?25h'}
+    [[ -t 1 ]] && print -rn -- $cnorm || print -rnu $_z4h_tty_fd -- $cnorm
+fi

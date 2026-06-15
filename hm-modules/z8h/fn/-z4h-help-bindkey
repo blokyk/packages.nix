@@ -1,0 +1,7 @@
+
+eval "$_z4h_opt"
+
+print -Pr -- "$(<<\END
+Usage: %F{2}z4h%f %Bbindkey%b [--] zle-widget key-binding [key-binding]...
+END
+)"

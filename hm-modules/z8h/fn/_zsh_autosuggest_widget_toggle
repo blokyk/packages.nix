@@ -1,0 +1,5 @@
+if (( ${+_ZSH_AUTOSUGGEST_DISABLED} )); then
+    _zsh_autosuggest_widget_enable
+else
+    _zsh_autosuggest_widget_disable
+fi

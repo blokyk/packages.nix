@@ -1,0 +1,5 @@
+
+eval "$_z4h_opt"
+[[ -z $BUFFER ]] && return
+fc -R =(print -r -- ${BUFFER//$'\n'/$'\\\n'})
+BUFFER=

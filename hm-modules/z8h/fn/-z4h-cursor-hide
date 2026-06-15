@@ -1,0 +1,4 @@
+
+if (( $+terminfo[civis] && $+terminfo[cnorm] )) && [[ -v _z4h_tty_fd ]]; then
+    [[ -t 1 ]] && echoti civis || echoti civis >&$_z4h_tty_fd
+fi

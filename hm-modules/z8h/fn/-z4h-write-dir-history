@@ -1,0 +1,4 @@
+local file=$XDG_STATE_HOME/z4h/stickycache/dir-history-$EUID
+local tmp=$file.tmp.$$
+print -rC1 -- $_z4h_dir_history >$tmp
+zf_mv -f -- $tmp $file

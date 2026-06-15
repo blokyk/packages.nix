@@ -1,0 +1,4 @@
+(( ${+_ZSH_AUTOSUGGEST_DISABLED} )) && return
+typeset -g _ZSH_AUTOSUGGEST_DISABLED
+[[ -z $POSTDISPLAY ]] || region_highlight[-1]=()
+unset POSTDISPLAY _z4h_autosuggest_buffer _z4h_autosuggestion

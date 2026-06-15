@@ -1,0 +1,9 @@
+[[ -z $BUFFER || $CONTEXT != start ]] && return
+[[ -z $POSTDISPLAY ]] || region_highlight[-1]=()
+POSTDISPLAY=${1-}
+typeset -g _z4h_autosuggest_buffer="$BUFFER"
+typeset -g _z4h_autosuggestion="${BUFFER}${POSTDISPLAY}"
+if [[ -n $POSTDISPLAY ]]; then
+    region_highlight+=(
+    "${#BUFFER} $((${#BUFFER} + ${#POSTDISPLAY})) $ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE")
+fi

@@ -1,0 +1,10 @@
+--- fn/-z4h-direnv-init
++++ fn/-z4h-direnv-init
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env zsh
+ 
+-local direnv cache=$Z4H/cache/direnv
++local direnv cache=${Z4H_CACHE:-$Z4H/cache}/direnv
+ if [[ -e $cache ]]; then
+   builtin source -- $cache || return
+   [[ -n $direnv ]] || return '_z4h_err()'

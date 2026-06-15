@@ -1,0 +1,13 @@
+
+_zsh_autosuggest_invoke_original_widget "$@"
+local -i ret=$?
+if [[ $CONTEXT == start ]]; then
+    [[ -z $POSTDISPLAY ]] || region_highlight[-1]=()
+    if (( ret )); then
+    -z4h-autosuggest-fetch
+    else
+    typeset -g _z4h_autosuggest_buffer=$BUFFER
+    unset _z4h_autosuggestion POSTDISPLAY
+    fi
+fi
+return ret

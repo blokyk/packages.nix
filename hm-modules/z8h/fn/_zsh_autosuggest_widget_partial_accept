@@ -1,0 +1,22 @@
+
+-z4h-autosuggest-fetch
+if (( ${#POSTDISPLAY} == 0 || CURSOR < _z4h_cursor_max() )); then
+    _zsh_autosuggest_invoke_original_widget "$@"
+    return
+fi
+local -i buf_len=${#BUFFER}
+BUFFER="$BUFFER$POSTDISPLAY"
+_zsh_autosuggest_invoke_original_widget "$@"
+local -i ret=$?
+local -i cursor=CURSOR
+if [[ $KEYMAP == vicmd && -n ${BUFFER##*$'\n'} ]]; then
+    (( ++cursor ))
+fi
+if (( cursor > buf_len )); then
+    BUFFER=${BUFFER:0:$cursor}
+    POSTDISPLAY=${POSTDISPLAY:$((cursor - buf_len))}
+else
+    BUFFER=${BUFFER:0:$buf_len}
+fi
+typeset -g _z4h_autosuggest_buffer=$BUFFER
+return ret

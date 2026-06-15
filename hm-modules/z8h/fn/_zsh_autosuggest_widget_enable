@@ -1,0 +1,3 @@
+(( ${+_ZSH_AUTOSUGGEST_DISABLED} )) || return 0
+unset _ZSH_AUTOSUGGEST_DISABLED
+_zsh_autosuggest_widget_fetch

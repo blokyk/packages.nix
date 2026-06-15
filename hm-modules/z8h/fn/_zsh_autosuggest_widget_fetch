@@ -1,0 +1,2 @@
+[[ -z $POSTDISPLAY ]] || region_highlight[-1]=()
+-z4h-autosuggest-fetch

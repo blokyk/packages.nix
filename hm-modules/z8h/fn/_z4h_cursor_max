@@ -1,0 +1,7 @@
+eval "$_z4h_opt"
+
+if [[ $KEYMAP == vicmd && -n ${BUFFER##*$'\n'} ]]; then
+  return $(( ${#BUFFER} - 1 ))
+else
+  return ${#BUFFER}
+fi

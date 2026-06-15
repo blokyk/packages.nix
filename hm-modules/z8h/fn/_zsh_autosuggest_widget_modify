@@ -1,0 +1,6 @@
+
+_zsh_autosuggest_invoke_original_widget "$@"
+local -i retval=$?
+[[ -z $POSTDISPLAY ]] || region_highlight[-1]=()
+-z4h-autosuggest-fetch
+return retval

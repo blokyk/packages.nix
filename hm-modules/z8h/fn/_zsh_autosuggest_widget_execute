@@ -1,0 +1,9 @@
+
+-z4h-autosuggest-fetch
+if [[ -n $POSTDISPLAY ]]; then
+    BUFFER=$BUFFER$POSTDISPLAY
+    region_highlight[-1]=()
+    typeset -g _z4h_autosuggest_buffer=$BUFFER
+    unset _z4h_autosuggestion POSTDISPLAY
+fi
+zle .accept-line

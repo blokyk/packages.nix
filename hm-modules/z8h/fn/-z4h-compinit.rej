@@ -1,0 +1,11 @@
+--- fn/-z4h-compinit
++++ fn/-z4h-compinit
+@@ -35,7 +35,7 @@ fi
+ 
+ local dump
+ zstyle -s ':z4h:compinit' dump-path dump
+-: ${dump:=$Z4H/cache/zcompdump-$EUID-$ZSH_VERSION}
++: ${dump:=${Z4H_CACHE:-$Z4H/cache}/zcompdump-$EUID-$ZSH_VERSION}
+ 
+ local -a stat files=(${^fpath}/^([^_]*|*~|*.zwc)(-.N))
+ (( ! $#files )) || zstat -A stat +mtime -- $files

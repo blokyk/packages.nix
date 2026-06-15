@@ -1,0 +1,5 @@
+if [[ $WIDGET == zle-line-finish || ! -v _z4h_substring_search_highlight ]]; then
+    region_highlight=()
+else
+    region_highlight=("${_z4h_substring_search_highlight[@]}")
+fi
