@@ -59,12 +59,12 @@ in {
     ];
   };
 
-  programs.zsh.initBlocks = lib.mkIf cfg.enable {
+  programs.z8h.blocks = {
     # this is necessary because the z4h functions get autoloaded *after*
     # zsh-autosuggestion is sourced, which breaks its widget detection somehow
     #
     # (also there's random z4h stuff i don't understand)
-    reload-autosuggestion = lib.hm.dag.entryAfter [ "z4h-prelude" ] ''
+    reload-autosuggestion = ''
       precmd_functions=(''${precmd_functions:#_zsh_autosuggest_start})
 
       # fixme: programs.zsh.autosuggestion.package doesn't exist :(

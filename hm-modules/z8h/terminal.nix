@@ -3,8 +3,8 @@ let
   cfg = config.programs.z8h;
   mkIfElse = cond: yes: no: lib.mkMerge [(lib.mkIf cond yes) (lib.mkIf (!cond) no)];
 in {
-  programs.zsh.initBlocks = lib.mkIf cfg.enable {
-    add-shell-integration-function = lib.hm.dag.entryAfter [ "load-z4h-functions" ] (
+  programs.z8h.blocks = {
+    add-shell-integration-function = lib.hm.dag.entryAfter [ "load-functions" ] (
       mkIfElse (cfg.terminal.shell-integration != null)
         # then
         ''

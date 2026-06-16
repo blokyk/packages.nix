@@ -8,8 +8,9 @@ in {
   '';
 
   # todo: create a zstyle option instead
-  programs.zsh.initBlocks = lib.mkIf cfg.enable {
-    completion-styles = lib.hm.dag.entryAfter [ "z4h-prelude" ] ''
+  # todo: create a zsh.completion set of options
+  programs.z8h.blocks = {
+    completion-styles = ''
       zstyle ':completion:*'               matcher-list      "m:{a-z}={A-Z}"
       zstyle ':completion:*'               menu              "false"
       zstyle ':completion:*'               verbose           "true"

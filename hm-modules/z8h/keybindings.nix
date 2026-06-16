@@ -140,12 +140,11 @@ in {
     (lib.modules.importApply ../mk-keybindings {
       multiKeybindings = true;
       optPath = [ "programs" "z8h" "keybindings" ];
-      prefixPath = [ "programs" "zsh" "initBlocks" "keybindings" ];
-      setter = action: keybinds: lib.mkIf cfg.enable (
-        lib.hm.dag.entryAfter [ "z4h-prelude" "register-zle-widgets" ] (
+      prefixPath = [ "programs" "z8h" "blocks" "keybindings" ];
+      setter = action: keybinds:
+        lib.hm.dag.entryAfter [ "register-zle-widgets" ] (
           lib.concatMapStringsSep "\n" (keybind: "bindkey '${keybind}' ${action}") keybinds
-        )
-      );
+        );
       keyMapper = key: baseKeyMap.${key} or key;
     })
   ];
@@ -153,6 +152,7 @@ in {
   options = {
     programs.z8h.keybindings = lib.mkOption {
       # remap whole key combinations instead of individual keys
+      # fixme: this is ugly and means that the global config will have weird zsh-isms instead of nice readable shortcuts
       apply = lib.mapAttrs (_: keys: map (keybind: mapKeyCombinations (map normalizeKey keybind)) keys);
     };
   };
@@ -164,8 +164,8 @@ in {
     # }) cfg.keybindings;
 
     # reset the keymap completely
-    programs.zsh.initBlocks = lib.mkIf cfg.enable {
-      reset-bindkey = lib.hm.dag.entryBetween [ "keybindings" ] [ "z4h-prelude" ] ''
+    programs.z8h.blocks = {
+      reset-bindkey = lib.hm.dag.entryBefore [ "keybindings" ] ''
         bindkey -d
         bindkey -e
       '';

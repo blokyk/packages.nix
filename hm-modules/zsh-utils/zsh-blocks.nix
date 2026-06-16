@@ -39,7 +39,7 @@ in {
           ''';
 
           set-keybinds = lib.hm.dag.entryAfter ["z4h-init"] '''
-            z4h bindkey
+            z4h bindkey z4h-kill-word Ctrl+Delete
           ''';
         };
       '';
@@ -57,10 +57,8 @@ in {
           # --- ${block.name} ---
 
           ${block.data}
-
-
         '';
       in
-        lib.mkOrder cfg.initBlocksPriority (concatMapStringsSep "\n" blockToString sortedNodes);
+        lib.mkOrder cfg.initBlocksPriority (concatMapStringsSep "\n\n" blockToString sortedNodes);
   };
 }

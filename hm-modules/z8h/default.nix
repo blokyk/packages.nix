@@ -13,6 +13,12 @@ in {
     ./base
   ];
 
+  # used to make it easier to declare z4h blocks, by wrapping them in `entriesBetween`
+  options.programs.z8h.blocks = lib.mkOption {
+    type = lib.hm.types.dagOf lib.types.lines;
+    internal = true;
+  };
+
   config = {
     programs.zsh.hooks = lib.mkIf cfg.enable {
       preexec = "-z4h-set-term-title-preexec";
@@ -22,13 +28,33 @@ in {
     # push z4h stuff lower down in the zshrc
     programs.zsh.initBlocksPriority = lib.mkIf cfg.enable 2000;
 
-    programs.zsh.initBlocks = lib.mkIf cfg.enable {
-      z4h-prelude = ''
+    programs.zsh.initBlocks = lib.mkIf cfg.enable (
+      lib.mapAttrs' (
+        name: block: {
+          name = "z4h-${name}";
+          value = {
+            data = block.data;
+            # prefix all block names with 'z4h-' & make sure that they
+            # are all sandwiched between z4h-start and z4h-end
+            after  = map (n: "z4h-${n}") (block.after ++ ["start"]);
+            before = map (n: "z4h-${n}") (block.before ++ ["end"]);
+          };
+        }
+      ) cfg.blocks
+    );
+
+    # the basic z4h "prelude"/setup
+    programs.z8h.blocks = {
+      # fake blocks that are only used for ordering
+      start = "";
+      end = "";
+
+      prelude = ''
         mkdir -p ''${XDG_STATE_HOME:=$HOME/.local/state}/z4h/stickycache
         mkdir -p ''${XDG_CACHE_HOME:=$HOME/.cache}/z4h
       '';
 
-      z4h-init = lib.hm.dag.entryAfter [ "z4h-prelude" ] ''
+      init = lib.hm.dag.entryAfter [ "prelude" ] ''
         # todo: this is basically going to be a simplified version of main.zsh
         # without all the checks and installation stuff
 
