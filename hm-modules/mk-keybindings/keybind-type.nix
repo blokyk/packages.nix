@@ -160,7 +160,7 @@ let
   specialKeys = [
     "Up" "Down" "Left" "Right"
     "PageUp" "PageDown"
-    "space" "Space" "Tab" "Above_Tab" "Backspace" "Delete"
+    "space" "Space" "Tab" "twosuperior" "Backspace" "Delete"
     "Home" "Print" "Escape" "Insert" "End"
   ];
 

@@ -95,6 +95,7 @@ let
     "<Ctl>" = "<Ctrl>";
     "<Shft>" = "<Shift>";
     "space" = "Space";
+    # "twosuperior" = "Above_Tab";
   }.${key} or key;
 
   opt = mkOption {
