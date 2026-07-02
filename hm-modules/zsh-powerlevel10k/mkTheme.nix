@@ -138,6 +138,24 @@ in
         ""
     }
 
+    ${
+      if isEnabled "nix-shell" then
+        let
+          opts = theme.nix-shell;
+        in
+        ''
+          typeset -g POWERLEVEL9K_NIX_SHELL_FOREGROUND="${toString opts.foreground}"
+          typeset -g POWERLEVEL9K_NIX_SHELL_BACKGROUND="${toString opts.background}"
+
+          typeset -g POWERLEVEL9K_NIX_SHELL_CONTENT_EXPANSION='${opts.expression}'
+          typeset -g POWERLEVEL9K_NIX_SHELL_VISUAL_IDENTIFIER_EXPANSION='${opts.icon}'
+
+          typeset -g POWERLEVEL9K_NIX_SHELL_INFER_FROM_PATH='${lib.boolToString opts.infer-from-path}'
+        ''
+      else
+        ""
+    }
+
     # Hot reload allows you to change POWERLEVEL9K options after Powerlevel10k has been initialized.
     # For example, you can type POWERLEVEL9K_BACKGROUND=red and see your prompt turn red. Hot reload
     # can slow down prompt by 1-2 milliseconds, so it's better to keep it turned off unless you
