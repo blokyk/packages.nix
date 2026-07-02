@@ -8,30 +8,6 @@
 let
   cfg = config.programs.zsh-powerlevel10k;
 
-  mylib = lib // {
-    mkMDList = mkMDList;
-  };
-
-  mkTheme =
-    config:
-    import ./mkTheme.nix {
-      inherit config;
-      lib = mylib;
-    };
-
-  theme-options =
-    config:
-    import ./theme-options.nix {
-      inherit config;
-      lib = mylib;
-    };
-  element-options =
-    config:
-    import ./element-options.nix {
-      inherit config;
-      lib = mylib;
-    };
-
   builtin-themes = import ./builtin-themes.nix;
   builtin-formatters = import ./builtin-git-formatters.nix;
 
@@ -60,8 +36,7 @@ with lib;
     };
 
     themeFile = mkOption {
-      type = types.nullOr types.path;
-      default = null;
+      type = types.path;
       example = literalExpression "home.programs.zsh.dotDir + \"/.p10k.zsh\"";
       description = ''
         Path to the p10k theme file (generally called `.p10k.zsh`).
@@ -72,8 +47,8 @@ with lib;
     theme = mkOption {
       type = types.submoduleWith {
         modules = [
-          ({ config, ... }: theme-options config)
-          ({ config, ... }: element-options config)
+          ./theme-options.nix
+          ./element-options.nix
         ];
       };
       default = { };
@@ -117,21 +92,22 @@ with lib;
   };
 
   config = mkIf cfg.enable {
-    home = {
-      packages = [ cfg.package ];
-    };
+    home.packages = [ cfg.package ];
+
+    programs.zsh-powerlevel10k.themeFile = mkOptionDefault (
+      pkgs.writeText ".p10k.zsh" ''
+        ${import ./mkTheme.nix { theme = cfg.theme; inherit lib; }}
+
+        ${cfg.extraConfig}
+      ''
+    );
 
     programs.zsh.initContent = mkAfter cfg.promptInit;
 
-    programs.zsh.envExtra =
-      let
-        themeFile =
-          if (cfg.themeFile == null) then pkgs.writeText ".p10k.zsh" (mkTheme cfg) else cfg.themeFile;
-      in
-      mkAfter ''
-        export POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
-        export POWERLEVEL9K_CONFIG_FILE="${toString themeFile}"
-      '';
+    programs.zsh.envExtra = mkAfter ''
+      export POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+      export POWERLEVEL9K_CONFIG_FILE="${cfg.themeFile}"
+    '';
   };
 
   meta.maintainers = with lib.maintainers; [ blokyk ];

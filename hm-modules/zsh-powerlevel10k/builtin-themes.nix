@@ -16,13 +16,13 @@
     prompt-char = {
       ok.foreground = "green";
       error.foreground = "red";
-      symbol = "%B➜ ";
+      symbol = "%B➜%b ";
     };
 
     dir = {
       foreground = "cyan";
       shorten.strategy = "truncate_to_last";
-      expression = "%B$P9K_CONTENT";
+      expression = "%B$P9K_CONTENT%b";
     };
 
     vcs.formatter = (import ./builtin-git-formatters.nix).robbyrussell;

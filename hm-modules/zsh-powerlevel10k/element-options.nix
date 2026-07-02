@@ -26,9 +26,9 @@ with lib;
           symbol = mkOption {
             type = types.str;
             default = "$P9K_CONTENT";
-            example = "%B➜%b ";
+            example = "%B➜%b";
             description = ''
-              The prompt symbol to use. Refer to p10k's to see how this
+              The prompt symbol to use. Refer to p10k's docs to see how this
               string is expanded, as well as the allowed sequences.
             '';
           };
@@ -39,7 +39,7 @@ with lib;
             default = { };
             type = types.submodule {
               options = {
-                # POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS}_FOREGROUND=green
+                # POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS}_FOREGROUND
                 foreground = mkOption {
                   type = color;
                   default = "green";
@@ -56,7 +56,7 @@ with lib;
             # todo: support vi modes
             type = types.submodule {
               options = {
-                # POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS}_FOREGROUND=green
+                # POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS}_FOREGROUND
                 foreground = mkOption {
                   type = color;
                   default = "red";
@@ -225,7 +225,7 @@ with lib;
               example = ''
                 emulate -L zsh
 
-                # just display 'git(current-branch-name)
+                # just display 'git:(current-branch-name)
                 typeset -g my_git_format='git:('"$VCS_STATUS_LOCAL_BRANCH"')'
               '';
             };
