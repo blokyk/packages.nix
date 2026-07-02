@@ -15,6 +15,34 @@ let
   getRightValue = opt: lib.attrByPath [ "right" ] opt opt;
 
   isEnabled = name: (lib.elem name theme.left-prompt) || (lib.elem name theme.right-prompt);
+
+  # note: if a value is null, it will just not set the option at all; use "" to set an option to null
+  optsToTypeset = prefix: lib.concatMapAttrsStringSep "" (
+    _name: value:
+    let name = lib.replaceString "-" "_" _name; in
+    if value == null then
+      ""
+    # if this is an attrset, recurse with the name of the attrset as the prefix
+    else if lib.isAttrs value then
+      optsToTypeset "${prefix}_${name}" value
+    else 
+      "\ntypeset -g POWERLEVEL9K_${lib.toUpper prefix}_${lib.toUpper name}='${toString value}'"
+  );
+
+  appearancePrelude = prefix: opts: optsToTypeset prefix {
+    inherit (opts) foreground background;
+    CONTENT_EXPANSION = opts.expression;
+    VISUAL_IDENTIFIER_EXPANSION = opts.icon or null;
+  };
+
+  # :: String -> (AttrSet -> String) -> (String | (AttrSet -> String)) -> String
+  genPromptOpts = name: mapping: extra:
+    let prefix = lib.replaceString "-" "_" name; in
+    if isEnabled name then ''
+      ${appearancePrelude prefix theme.${name}}
+      ${optsToTypeset prefix (mapping theme.${name})}
+      ${if lib.isFunction extra then (extra theme.${name}) else extra}
+    '' else "";
 in
 ''
   # AUTO-GENERATED!
@@ -87,73 +115,39 @@ in
     }
 
     ${
-      if isEnabled "dir" then
-        let
-          opts = theme.dir;
-        in
-        ''
-          typeset -g POWERLEVEL9K_DIR_BACKGROUND="${toString opts.background}"
-          typeset -g POWERLEVEL9K_DIR_FOREGROUND="${toString opts.foreground}"
-
-          typeset -g POWERLEVEL9K_SHORTEN_STRATEGY="${opts.shorten.strategy}"
-          typeset -g POWERLEVEL9K_SHORTEN_DELIMITER="${opts.shorten.delimiter}"
-          typeset -g POWERLEVEL9K_SHORTEN_DIR_LENGTH=${toString opts.shorten.length}
-
-          typeset -g POWERLEVEL9K_DIR_PATH_ABSOLUTE=${lib.boolToString opts.absolute}
-          typeset -g POWERLEVEL9K_DIR_SHOW_WRITABLE=${lib.boolToString opts.writable}
-
-          typeset -g POWERLEVEL9K_DIR_CONTENT_EXPANSION='${opts.expression}'
-        ''
-      else
-        ""
+      genPromptOpts "dir" (opts: {
+        path_absolute = lib.boolToString opts.absolute;
+        show_writable = lib.boolToString opts.writable;
+      }) (opts: optsToTypeset "shorten" {
+        # for some fucking reason, this is under _SHORTEN directly instead of _DIR_SHORTEN
+        inherit (opts.shorten) strategy delimiter;
+        dir_length = opts.shorten.length;
+      })
     }
 
     ${
-      if isEnabled "vcs" then
-        let
-          opts = theme.vcs;
-        in
-        ''
-          typeset -g POWERLEVEL9K_VCS_LOADING_FOREGROUND="${toString opts.loading-foreground}"
-          typeset -g POWERLEVEL9K_VCS_FOREGROUND="${toString opts.foreground}"
-          typeset -g POWERLEVEL9K_VCS_BACKGROUND="${toString opts.background}"
-
-          typeset -g POWERLEVEL9K_VCS_CONTENT_EXPANSION='${opts.expression}'
-          typeset -g POWERLEVEL9K_VCS_LOADING_CONTENT_EXPANSION='${opts.loading-expression}'
-
-          ${
-            if (opts.formatter == null) then
-              ""
-            else
-              ''
-                typeset -g POWERLEVEL9K_VCS_DISABLE_GITSTATUS_FORMATTING=true
-                function my_git_formatter() {
-                  ${opts.formatter}
-                }
-                functions -M my_git_formatter 2>/dev/null
-              ''
-          }
-        ''
-      else
-        ""
+      genPromptOpts "vcs" (opts: {
+        loading_foreground = opts.loading-foreground;
+        loading_content_expansion = opts.loading-expression;
+      }) (opts: ''
+        ${
+          if (opts.formatter == null) then ''
+            typeset -g POWERLEVEL9K_VCS_DISABLE_GITSTATUS_FORMATTING=false
+          '' else ''
+            typeset -g POWERLEVEL9K_VCS_DISABLE_GITSTATUS_FORMATTING=true
+            function my_git_formatter() {
+              ${opts.formatter}
+            }
+            functions -M my_git_formatter 2>/dev/null
+          ''
+        }
+      '')
     }
 
     ${
-      if isEnabled "nix-shell" then
-        let
-          opts = theme.nix-shell;
-        in
-        ''
-          typeset -g POWERLEVEL9K_NIX_SHELL_FOREGROUND="${toString opts.foreground}"
-          typeset -g POWERLEVEL9K_NIX_SHELL_BACKGROUND="${toString opts.background}"
-
-          typeset -g POWERLEVEL9K_NIX_SHELL_CONTENT_EXPANSION='${opts.expression}'
-          typeset -g POWERLEVEL9K_NIX_SHELL_VISUAL_IDENTIFIER_EXPANSION='${opts.icon}'
-
-          typeset -g POWERLEVEL9K_NIX_SHELL_INFER_FROM_PATH='${lib.boolToString opts.infer-from-path}'
-        ''
-      else
-        ""
+      genPromptOpts "nix-shell" (opts: {
+        infer_from_path = lib.boolToString opts.infer-from-path;
+      }) ""
     }
 
     # Hot reload allows you to change POWERLEVEL9K options after Powerlevel10k has been initialized.

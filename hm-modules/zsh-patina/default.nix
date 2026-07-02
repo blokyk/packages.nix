@@ -195,7 +195,7 @@ in {
 
           Note that the timeout only applies to multi-line commands. Highlighting cannot
           be aborted in the middle of a line. If you often deal with long lines that
-          take longer to highlight than the timeout, consider reducing {opt}`programs.zsh.patina.settings.max-line-length`.
+          take longer to highlight than the timeout, consider reducing {option}`programs.zsh.patina.settings.max-line-length`.
         '';
       };
 
