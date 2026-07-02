@@ -12,8 +12,6 @@ with lib;
       default = { };
       type = types.submodule {
         options = {
-          enable = mkEnableOption "the `prompt_char` (prompt symbol) prompt element";
-
           # POWERLEVEL9K_PROMPT_CHAR_BACKGROUND
           background = mkOption {
             type = types.nullOr color;
@@ -75,8 +73,6 @@ with lib;
       default = { };
       type = types.submodule {
         options = {
-          enable = mkEnableOption "the `dir` (current directory) prompt element";
-
           # POWERLEVEL9K_DIR_BACKGROUND
           background = mkOption {
             type = types.nullOr color;
@@ -176,8 +172,6 @@ with lib;
         { config, ... }:
         {
           options = {
-            enable = mkEnableOption "the `vcs` (git status) prompt element";
-
             # POWERLEVEL9K_VCS_BACKGROUND
             background = mkOption {
               type = types.nullOr color;
