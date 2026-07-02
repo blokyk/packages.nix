@@ -205,7 +205,7 @@ with lib;
             #                 - POWERLEVEL9K_VCS_CONTENT_EXPANSION='${$((my_git_formatter(1)))+${my_git_format}}'
             #                 - POWERLEVEL9K_VCS_LOADING_CONTENT_EXPANSION='${$((my_git_formatter(0)))+${my_git_format}}'
             formatter = mkOption {
-              type = types.nullOr types.lines;
+              type = types.nullOr types.str;
               default = null;
               description = ''
                 The body of the function used to format the git status part of the
