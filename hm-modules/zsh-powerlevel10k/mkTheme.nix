@@ -150,6 +150,13 @@ in
       }) ""
     }
 
+    ${
+      genPromptOpts "command-execution-time" (opts: {
+        # we can't just give `opts` directly because it also contains e.g. `expression` and `icon`
+        inherit (opts) threshold precision format prefix;
+      }) ""
+    }
+
     # Hot reload allows you to change POWERLEVEL9K options after Powerlevel10k has been initialized.
     # For example, you can type POWERLEVEL9K_BACKGROUND=red and see your prompt turn red. Hot reload
     # can slow down prompt by 1-2 milliseconds, so it's better to keep it turned off unless you
