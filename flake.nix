@@ -31,6 +31,7 @@
       };
 
       hm-modules = {
+        cookiecutter = ./hm-modules/cookiecutter;
         hm-utils = ./hm-modules/hm-utils;
         ringboard = ./hm-modules/ringboard;
         zsh-patina = ./hm-modules/zsh-patina;
