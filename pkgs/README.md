@@ -3,31 +3,33 @@
 A few things I packaged with nix.
 
 There's a few ones I use everyday, which I "actively maintain," and are thus
-very unlikely to be broken (and if they are, please open an issue to notify me!).
+unlikely to be broken (and if they are, please open an issue to notify me!),
+although they might sometimes be out-of-date.
 Some of these might already exist in nixpkgs, but the versions here are either
 patched or packaged differently (e.g. suwayomi is built from source here,
-whereas nixpkgs simply pulls a release tarball for it).
+whereas nixpkgs simply pulls a release tarball for it). Here are the ones I use
+in my day-to-day configs:
 
 - [`suwayomi/suwayomi-server`](https://github.com/Suwayomi/Suwayomi-Server), a
   self-hostable cross-platform port/clone of Tachiyomi/Mihon
+- [`michel-kraemer/zsh-patina`](https://github.com/michel-kraemer/zsh-patina),
+  a blazingly fast Zsh syntax highlighter
 
 I also package things for fun or for one-time use, but still publish them here
 for convenience and posterity. They are more likely to be broken, though if you
 rely on them, I'd be happy to fix them; you just gotta open an issue for it, and
-I'll try to find the time.
+I'll try to find the time. Here are the mostly-unmaintained ones:
 
 - [`blokyk/nix-otel`](https://github.com/blokyk/nix-otel), an updated fork of
   [`lf-/nix-otel`](https://github.com/lf-/nix-otel)
 - [`Jkeyuk/JDbrowser`](https://github.com/Jkeyuk/JDbrowser), a terminal SQLite
   database browser
-- [`mcy/voltorb`](https://github.com/mcy/voltorb), an port of pokemon's Voltorb
+- [`mcy/voltorb`](https://github.com/mcy/voltorb), a port of pokemon's Voltorb
   Flip to the terminal
 - [`joedefen/grub-wiz`](https://github.com/joedefen/grub-wiz), a TUI for editing
   grub configurations
 - [`plp13/qman`](https://github.com/plp13/qman), a modern manual viewer for the
   terminal
-- [`michel-kraemer/zsh-patina`](https://github.com/michel-kraemer/zsh-patina),
-  a blazingly fast Zsh syntax highlighter
 - [`aliev/baker`](https://github.com/aliev/baker), a scaffolding/templating CLI
 
 See [the notes](#notes) on each package for more information.
