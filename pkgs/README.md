@@ -18,8 +18,6 @@ I'll try to find the time.
 
 - [`blokyk/nix-otel`](https://github.com/blokyk/nix-otel), an updated fork of
   [`lf-/nix-otel`](https://github.com/lf-/nix-otel)
-- [`TeXlyre/TeXlyre`](https://github.com/texlyre/texlyre), a self-hostable
-  LaTeX and typst web editor
 - [`Jkeyuk/JDbrowser`](https://github.com/Jkeyuk/JDbrowser), a terminal SQLite
   database browser
 - [`mcy/voltorb`](https://github.com/mcy/voltorb), an port of pokemon's Voltorb
@@ -74,19 +72,6 @@ in { ... }
 This is a simple fork of `lf-`'s Nix OpenTelemetry plugin, updated to work with
 modern (2.31) CppNix.
 See [the note at the top of the fork's README for more info](https://github.com/blokyk/nix-otel#nix-otel).
-
-### TeXlyre
-
-TeXlyre, by itself, is simply a bunch of static html, css, and js files. While
-it does work as a Typst/LaTeX editor in that form, using it to share projects
-and do live modifications will require setting up more infrastructure.
-See [the official TeXlyre infrastructure sample for more info](https://github.com/TeXlyre/texlyre-infrastructure).
-While I have explored writing a TeXlyre module based on that sample, I've given
-up because I hate DevOps and DevOps hate me. I'd be very happy to have a module
-for it; I just don't have the knowledge, energy or time for it right now.
-However, if you'd be interested in either using or writing it, please comment on
-issue [#5](https://github.com/blokyk/packages.nix/issues/5), and I'll be happy
-to reconsider it / have some new motivation.
 
 ### Suwayomi
 
