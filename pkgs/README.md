@@ -30,6 +30,7 @@ I'll try to find the time.
   terminal
 - [`michel-kraemer/zsh-patina`](https://github.com/michel-kraemer/zsh-patina),
   a blazingly fast Zsh syntax highlighter
+- [`aliev/baker`](https://github.com/aliev/baker), a scaffolding/templating CLI
 
 See [the notes](#notes) on each package for more information.
 
