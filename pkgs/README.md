@@ -31,6 +31,8 @@ I'll try to find the time. Here are the mostly-unmaintained ones:
 - [`plp13/qman`](https://github.com/plp13/qman), a modern manual viewer for the
   terminal
 - [`aliev/baker`](https://github.com/aliev/baker), a scaffolding/templating CLI
+- [`mbrukman/pdf-extract-svg`](https://github.com/mbrukman/pdf-extract-svg), a
+  convenient GUI for extracting SVGs from PDF files.
 
 See [the notes](#notes) on each package for more information.
 
