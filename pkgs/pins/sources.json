@@ -67,9 +67,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "849e776a8074797e81846e60901ad44faecf907d",
-      "url": "https://github.com/blokyk/nix-otel/archive/849e776a8074797e81846e60901ad44faecf907d.tar.gz",
-      "hash": "sha256-309qtll7z94fTzTSlhyl2EkrQldp681MpRrpd+qhupo="
+      "revision": "a3aa92e1134b6ec3c0a01e9e8c295a1f90952d1b",
+      "url": "https://github.com/blokyk/nix-otel/archive/a3aa92e1134b6ec3c0a01e9e8c295a1f90952d1b.tar.gz",
+      "hash": "sha256-ShKDFeEwIO57tW7XUYoDxPJ0KqrzBOu7R8vbdJMonk4="
     },
     "nixpkgs": {
       "type": "Channel",
