@@ -5,7 +5,7 @@
 }:
 python3Packages.buildPythonPackage (finalAttrs: {
   pname = "console-window";
-  version = "1.3.2";
+  version = "1.4.3";
   pyproject = true;
 
   src = pins.console-window;

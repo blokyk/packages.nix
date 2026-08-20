@@ -25,9 +25,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "1acbe3a69e2134ca868148c7a388dee227bd2fad",
-      "url": "https://github.com/joedefen/console-window/archive/1acbe3a69e2134ca868148c7a388dee227bd2fad.tar.gz",
-      "hash": "sha256-1WebDvucRKVwlueMamsCgCp3t/WzNIsl/uIUjmnWx1Q="
+      "revision": "825a8b5e87c0f3d3d99bc0f1bfb33f21c3cdd232",
+      "url": "https://github.com/joedefen/console-window/archive/825a8b5e87c0f3d3d99bc0f1bfb33f21c3cdd232.tar.gz",
+      "hash": "sha256-ceGt8fLQeS5UR4/WAkdNbk+bqTq31Ks52zvckyDG8wE="
     },
     "grub-wiz": {
       "type": "Git",
