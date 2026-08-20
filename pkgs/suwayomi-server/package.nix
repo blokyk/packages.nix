@@ -11,6 +11,6 @@ writeShellApplication {
   '';
 
   derivationArgs = {
-    inherit (suwayomi-server-unwrapped) meta;
+    inherit (suwayomi-server-unwrapped) meta pname version;
   };
 }

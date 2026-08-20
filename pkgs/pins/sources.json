@@ -118,10 +118,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "v2.2.2100",
-      "revision": "ef067ef5b90e594723b5522630638778e15c13dd",
-      "url": "https://api.github.com/repos/Suwayomi/Suwayomi-Server/tarball/refs/tags/v2.2.2100",
-      "hash": "sha256-RPVz2BDBtFXmXzc3DlSIzkwsjfd+WNGV3O0llJF4P1A="
+      "version": "v2.3.2243",
+      "revision": "1d583ca4a718646e17a4c62d23fe8e5edccaf774",
+      "url": "https://api.github.com/repos/Suwayomi/Suwayomi-Server/tarball/refs/tags/v2.3.2243",
+      "hash": "sha256-QKI014c7ktf6OGB1pd7gKzVGiqBGSZjpMecn2Adu3Ik="
     },
     "voltorb": {
       "type": "Git",
