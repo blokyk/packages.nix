@@ -1,18 +1,14 @@
 {
-  fetchFromGitHub,
   lib,
   rustPlatform,
+
+  pins,
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "zsh-patina";
-  version = "1.8.0";
+  version = pins.zsh-patina.version;
 
-  src = fetchFromGitHub {
-    owner = "michel-kraemer";
-    repo = "zsh-patina";
-    rev = finalAttrs.version;
-    hash = "sha256-M14IeK+Nsst+6RK6ayhq37YSoFPVptNqE9blVHDI1YM=";
-  };
+  src = pins.zsh-patina;
 
   cargoHash = "sha256-4Meb4BDV/Um8/YMA5DkeNDcgCMS5cA8olKhOIq9coIU=";
 

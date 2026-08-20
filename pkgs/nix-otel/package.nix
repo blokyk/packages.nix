@@ -1,9 +1,9 @@
 {
   boost,
   capnproto,
-  fetchFromGitHub,
   lib,
   rustPlatform,
+  pins,
   pkg-config,
   protobuf,
 
@@ -18,12 +18,7 @@ buildRustPackage (finalAttrs: {
   pname = "nix-otel";
   version = "2023-08-06";
 
-  src = fetchFromGitHub {
-    owner = "blokyk";
-    repo = "nix-otel";
-    rev = "849e776a8074797e81846e60901ad44faecf907d";
-    sha256 = "sha256-309qtll7z94fTzTSlhyl2EkrQldp681MpRrpd+qhupo=";
-  };
+  src = pins.nix-otel;
 
   cargoHash = "sha256-ePOzfob5FjpbThudEBDI10FVP3HMoP52nzuglZhk0wo=";
 

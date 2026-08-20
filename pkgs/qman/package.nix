@@ -1,10 +1,10 @@
 {
   lib,
+  pins,
 
   bzip2,
   cunit,
   groff,
-  fetchFromGitHub,
   man,
   meson,
   ncurses,
@@ -19,14 +19,10 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "qman";
-  version = "1.5.1";
+  # strip the 'v' at the start
+  version = lib.substring 0 (-1) pins.qman.version;
 
-  src = fetchFromGitHub {
-    owner = "plp13";
-    repo = "qman";
-    rev = "v${finalAttrs.version}";
-    hash = "sha256-z3ILbbwcCYZT8qabVaGnMCyZRag8djEI32i6G7cLL2A=";
-  };
+  src = pins.qman;
 
   nativeBuildInputs = [
     cogapp

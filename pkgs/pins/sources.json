@@ -1,0 +1,157 @@
+{
+  "pins": {
+    "baker": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "aliev",
+        "repo": "baker"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "v0.16.1",
+      "revision": "6e335d8cd27b29fb48691e39c8f2f2e57e344a63",
+      "url": "https://api.github.com/repos/aliev/baker/tarball/refs/tags/v0.16.1",
+      "hash": "sha256-F7szVifQuetsdPQcMe6OvmPF0PdCWOn0mVyOodP6WXc="
+    },
+    "console-window": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "joedefen",
+        "repo": "console-window"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "1acbe3a69e2134ca868148c7a388dee227bd2fad",
+      "url": "https://github.com/joedefen/console-window/archive/1acbe3a69e2134ca868148c7a388dee227bd2fad.tar.gz",
+      "hash": "sha256-1WebDvucRKVwlueMamsCgCp3t/WzNIsl/uIUjmnWx1Q="
+    },
+    "grub-wiz": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "joedefen",
+        "repo": "grub-wiz"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "529b7446ace8f676a0899bea3518e7c25934f307",
+      "url": "https://github.com/joedefen/grub-wiz/archive/529b7446ace8f676a0899bea3518e7c25934f307.tar.gz",
+      "hash": "sha256-MMZuXb9UA+wsf9UV3Mu19spqoSFW+vslT0R098Is9lY="
+    },
+    "jdbrowser": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "Jkeyuk",
+        "repo": "JDBrowser"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "1.4",
+      "revision": "03e2dee1bc0594824067a3335e8713ed65ca3297",
+      "url": "https://api.github.com/repos/Jkeyuk/JDBrowser/tarball/refs/tags/1.4",
+      "hash": "sha256-0i0JNrmphqCVC5vAndHMRZDeRrbUZwJVvz82IKOldOk="
+    },
+    "nix-otel": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "blokyk",
+        "repo": "nix-otel"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "849e776a8074797e81846e60901ad44faecf907d",
+      "url": "https://github.com/blokyk/nix-otel/archive/849e776a8074797e81846e60901ad44faecf907d.tar.gz",
+      "hash": "sha256-309qtll7z94fTzTSlhyl2EkrQldp681MpRrpd+qhupo="
+    },
+    "nixpkgs": {
+      "type": "Channel",
+      "name": "nixpkgs-unstable",
+      "artifact": "nixexprs.tar.xz",
+      "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.11pre1056269.21e032ff9522/nixexprs.tar.xz",
+      "hash": "sha256-EY66J8Zm3c8K7cAEYic7t1ojpo2jrN4JQ6j8RTDD2/I="
+    },
+    "pdf-extract-svg": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "mbrukman",
+        "repo": "pdf-extract-svg"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "31d8e8ffcec4702c791bfa523e124db0bed99a4c",
+      "url": "https://github.com/mbrukman/pdf-extract-svg/archive/31d8e8ffcec4702c791bfa523e124db0bed99a4c.tar.gz",
+      "hash": "sha256-LQg/wbkoWTFwPUpw0Xcrq6bM/3EMBiw/95gBM9c1MLQ="
+    },
+    "qman": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "plp13",
+        "repo": "qman"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "v1.5.1",
+      "revision": "74b46e665f68d0356148c80721508eb376ac6f97",
+      "url": "https://api.github.com/repos/plp13/qman/tarball/refs/tags/v1.5.1",
+      "hash": "sha256-z3ILbbwcCYZT8qabVaGnMCyZRag8djEI32i6G7cLL2A="
+    },
+    "suwayomi-server": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "Suwayomi",
+        "repo": "Suwayomi-Server"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "v2.2.2100",
+      "revision": "ef067ef5b90e594723b5522630638778e15c13dd",
+      "url": "https://api.github.com/repos/Suwayomi/Suwayomi-Server/tarball/refs/tags/v2.2.2100",
+      "hash": "sha256-RPVz2BDBtFXmXzc3DlSIzkwsjfd+WNGV3O0llJF4P1A="
+    },
+    "voltorb": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "mcy",
+        "repo": "voltorb"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "9b05d113e00d6a43d21a09bc6151eb40ed2f343e",
+      "url": "https://github.com/mcy/voltorb/archive/9b05d113e00d6a43d21a09bc6151eb40ed2f343e.tar.gz",
+      "hash": "sha256-pgJK/K22+COSsLE14NOAX94rWna7nxCCKHShivP2L2Y="
+    },
+    "zsh-patina": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "michel-kraemer",
+        "repo": "zsh-patina"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "1.8.0",
+      "revision": "fdbdce4514b146afbead7362d3f31662bbcd111b",
+      "url": "https://api.github.com/repos/michel-kraemer/zsh-patina/tarball/refs/tags/1.8.0",
+      "hash": "sha256-M14IeK+Nsst+6RK6ayhq37YSoFPVptNqE9blVHDI1YM="
+    }
+  },
+  "version": 8
+}

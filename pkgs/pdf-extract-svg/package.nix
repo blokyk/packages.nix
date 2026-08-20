@@ -1,6 +1,6 @@
 {
-  fetchFromGitHub,
   lib,
+  pins,
   python3Packages,
 }:
 python3Packages.buildPythonApplication (finalAttrs:
@@ -25,12 +25,7 @@ in {
   version = "0.1+unstable-2026-01-16";
   pyproject = true;
 
-  src = fetchFromGitHub {
-    owner = "mbrukman";
-    repo = "pdf-extract-svg";
-    rev = "31d8e8ffcec4702c791bfa523e124db0bed99a4c";
-    hash = "sha256-LQg/wbkoWTFwPUpw0Xcrq6bM/3EMBiw/95gBM9c1MLQ=";
-  };
+  src = pins.pdf-extract-svg;
 
   prePatch = ''
     # add a basic setup.py file

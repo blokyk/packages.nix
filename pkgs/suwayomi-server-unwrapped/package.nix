@@ -1,5 +1,4 @@
 {
-  fetchFromGitHub,
   gradle_9,
   jdk,
   kotlin,
@@ -8,6 +7,7 @@
   enableSystemTray ? false,
 
   lib,
+  pins,
 }@args:
 let
   gradle = gradle_9;
@@ -15,14 +15,10 @@ let
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "suwayomi-server";
-  version = "2.2.2100";
+  # strip the 'v' at the start
+  version = lib.substring 1 (-1) pins.suwayomi-server.version;
 
-  src = fetchFromGitHub {
-    owner = "Suwayomi";
-    repo = "Suwayomi-Server";
-    rev = "v${finalAttrs.version}";
-    hash = "sha256-RPVz2BDBtFXmXzc3DlSIzkwsjfd+WNGV3O0llJF4P1A=";
-  };
+  src = pins.suwayomi-server;
 
   outputHashAlgo = "sha256";
   outputHashMode = "flat";

@@ -1,21 +1,16 @@
 {
   buildRustPackage ? rustPlatform.buildRustPackage,
-  fetchFromGitHub,
   rustPlatform,
   sqlite,
 
   lib,
+  pins
 }:
 buildRustPackage (finalAttrs: {
   pname = "jdbrowser";
-  version = "1.4";
+  version = pins.jdbrowser.version;
 
-  src = fetchFromGitHub {
-    owner = "Jkeyuk";
-    repo = "JDbrowser";
-    rev = finalAttrs.version;
-    hash = "sha256-0i0JNrmphqCVC5vAndHMRZDeRrbUZwJVvz82IKOldOk=";
-  };
+  src = pins.jdbrowser;
 
   cargoLock.lockFile = "${finalAttrs.src}/Cargo.lock";
 

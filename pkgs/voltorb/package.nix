@@ -1,18 +1,13 @@
 {
   lib,
+  pins,
   rustPlatform,
-  fetchFromGitHub,
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "voltorb";
   version = "2022-05-17";
 
-  src = fetchFromGitHub {
-    owner = "mcy";
-    repo = "voltorb";
-    rev = "9b05d113e00d6a43d21a09bc6151eb40ed2f343e";
-    hash = "sha256-pgJK/K22+COSsLE14NOAX94rWna7nxCCKHShivP2L2Y=";
-  };
+  src = pins.voltorb;
 
   # we have to vendor a Cargo.lock because the original repo doesn't have one
   cargoLock.lockFile = ./Cargo.lock;

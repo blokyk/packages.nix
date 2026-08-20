@@ -1,6 +1,6 @@
 {
-  fetchFromGitHub,
   lib,
+  pins,
   rustPlatform,
 
   libgit2,
@@ -9,14 +9,10 @@
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "baker";
-  version = "0.16.1";
+  # strip the 'v' at the start
+  version = lib.substring 1 (-1) pins.baker.version;
 
-  src = fetchFromGitHub {
-    owner = "aliev";
-    repo = "baker";
-    rev = "v${finalAttrs.version}";
-    hash = "sha256-F7szVifQuetsdPQcMe6OvmPF0PdCWOn0mVyOodP6WXc=";
-  };
+  src = pins.baker;
 
   # we have to vendor a Cargo.lock because the original repo doesn't have one
   cargoLock.lockFile = ./Cargo.lock;
