@@ -123,6 +123,19 @@
       "url": "https://api.github.com/repos/Suwayomi/Suwayomi-Server/tarball/refs/tags/v2.3.2243",
       "hash": "sha256-QKI014c7ktf6OGB1pd7gKzVGiqBGSZjpMecn2Adu3Ik="
     },
+    "typst-languagetool": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "antonWetzel",
+        "repo": "typst-languagetool"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "26721c1deb4dcea4626071adf16a48f4cf900244",
+      "url": "https://github.com/antonWetzel/typst-languagetool/archive/26721c1deb4dcea4626071adf16a48f4cf900244.tar.gz",
+      "hash": "sha256-3Op5sD0rduZrVClfK4OZQOQVZEQXbTR2Z0OXC/Kk7Xg="
+    },
     "voltorb": {
       "type": "Git",
       "repository": {
