@@ -144,12 +144,10 @@ let
         };
       };
   };
-
-  zpkgs = import ../../pkgs {};
 in {
   options.programs.zsh.patina = {
     enable = mkEnableOption "zsh-patina, a blazingly fast Zsh syntax highlighter";
-    package = lib.mkPackageOption zpkgs "zsh-patina" { pkgsText = "<zoeee/pkgs>"; };
+    package = lib.mkPackageOption pkgs "zsh-patina" { };
 
     settings = {
       theme = mkOption {
