@@ -6,6 +6,7 @@ in {
     ../zsh-utils
 
     ./autosuggestions.nix
+    ./completions.nix
     ./fzf.nix
     ./keybindings.nix
     ./options.nix

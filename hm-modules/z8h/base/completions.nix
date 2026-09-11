@@ -1,12 +1,4 @@
-{ config, lib, ... }:
-let
-  cfg = config.programs.z8h;
-in {
-  programs.zsh.completionInit = lib.mkIf cfg.enable ''
-    autoload -U compinit && compinit
-    autoload -Uz bashcompinit && bashcompinit
-  '';
-
+{ lib, ... }: {
   # todo: create a zstyle option instead
   # todo: create a zsh.completion set of options
   programs.z8h.blocks = {
@@ -28,10 +20,8 @@ in {
       zstyle ':completion:*:parameters'    ignored-patterns  \
         "_(z4h|p9k|_p9k|POWERLEVEL9K|gitstatus|GITSTATUS|zsh_highlight|zsh_autosuggest|ZSH_HIGHLIGHT|ZSH_AUTOSUGGEST)*"
 
-      if (( ! _z4h_dangerous_root )); then
-        zstyle ':completion:*'             use-cache         "true"
-        zstyle ':completion:*'             cache-path        "''${XDG_CACHE_HOME:-/tmp}/zcompcache-$ZSH_VERSION"
-      fi
+      zstyle ':completion:*'             use-cache         "true"
+      zstyle ':completion:*'             cache-path        "''${XDG_CACHE_HOME:-/tmp}/zcompcache-$ZSH_VERSION"
 
       zstyle ':completion:*:ssh:argument-1:*'                    sort             'true'
       zstyle ':completion:*:scp:argument-rest:*'                 sort             'true'
@@ -44,10 +34,10 @@ in {
       zstyle ':completion:*:git-*:argument-rest:recent-branches' ignored-patterns '*'
     '';
 
-    bashcompinit = lib.hm.dag.entryAfter [ "completion-styles" ] ''
+    compinit = lib.hm.dag.entryAfter [ "completion-styles" ] ''
+      autoload -Uz compinit && compinit
       # Make it possible to use completion specifications and functions written for bash.
-      autoload -Uz bashcompinit
-      bashcompinit
+      autoload -Uz bashcompinit && bashcompinit
     '';
   };
 }
