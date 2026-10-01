@@ -22,7 +22,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   outputHashAlgo = "sha256";
   outputHashMode = "flat";
-  outputHash = "sha256-XUcgP2P3J4puYclQRHsB2sFc9qFRIZRvnbfo8TO8uW8=";
+  outputHash = "sha256-pawW7E8tkFktnKCdWUw+M8FgV1RHcW1vDyDUKEu7BNQ=";
 
   postPatch = ''
     # set the version correctly

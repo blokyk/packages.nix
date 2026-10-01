@@ -14,7 +14,7 @@
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "typst-languagetool";
-  version = "0-unstable-2026-06-28";
+  version = "0-unstable-2026-08-28";
   __structuredAttrs = true;
 
   src = pins.typst-languagetool;
