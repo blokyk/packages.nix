@@ -29,6 +29,18 @@
       "url": "https://github.com/joedefen/console-window/archive/825a8b5e87c0f3d3d99bc0f1bfb33f21c3cdd232.tar.gz",
       "hash": "sha256-ceGt8fLQeS5UR4/WAkdNbk+bqTq31Ks52zvckyDG8wE="
     },
+    "grub-customizer": {
+      "type": "Git",
+      "repository": {
+        "type": "Git",
+        "url": "git://git.launchpad.net/grub-customizer"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "805e8d3134a47afee2cc6712f58497136c892bca",
+      "url": null,
+      "hash": "sha256-ETlOKXCYQha1SlBLA4FtdJqFjlxvkP97JLH+7vvbfDs="
+    },
     "grub-wiz": {
       "type": "Git",
       "repository": {
