@@ -54,6 +54,22 @@
       "url": "https://github.com/joedefen/grub-wiz/archive/529b7446ace8f676a0899bea3518e7c25934f307.tar.gz",
       "hash": "sha256-MMZuXb9UA+wsf9UV3Mu19spqoSFW+vslT0R098Is9lY="
     },
+    "grub2-theme-preview": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "hartwork",
+        "repo": "grub2-theme-preview"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "2.10.0",
+      "revision": "837360a0b80d12dfd5853f60ef6aa22f9a765f0b",
+      "url": "https://api.github.com/repos/hartwork/grub2-theme-preview/tarball/refs/tags/2.10.0",
+      "hash": "sha256-PRlVoPGToGUHfzTKYossiyusS4U1CTtHvnq4/7Zv7Dg="
+    },
     "jdbrowser": {
       "type": "GitRelease",
       "repository": {
