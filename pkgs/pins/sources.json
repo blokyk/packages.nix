@@ -29,6 +29,19 @@
       "url": "https://github.com/joedefen/console-window/archive/825a8b5e87c0f3d3d99bc0f1bfb33f21c3cdd232.tar.gz",
       "hash": "sha256-ceGt8fLQeS5UR4/WAkdNbk+bqTq31Ks52zvckyDG8wE="
     },
+    "gnome-github-manager": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "mackdk",
+        "repo": "gnome-github-manager"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "f7fc1b1b7bbaf3d179a6ed4bd8bbbf7e530df51b",
+      "url": "https://github.com/mackdk/gnome-github-manager/archive/f7fc1b1b7bbaf3d179a6ed4bd8bbbf7e530df51b.tar.gz",
+      "hash": "sha256-f1JCTVGYw5UpCRrNjfW5wRT/aeMm1yF9F0x9nM1iIfM="
+    },
     "grub-customizer": {
       "type": "Git",
       "repository": {
