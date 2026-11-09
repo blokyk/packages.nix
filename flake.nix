@@ -31,6 +31,7 @@
       };
 
       hm-modules = {
+        diffnav = ./hm-modules/diffnav;
         cookiecutter = ./hm-modules/cookiecutter;
         hm-utils = ./hm-modules/hm-utils;
         ringboard = ./hm-modules/ringboard;

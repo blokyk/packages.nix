@@ -3,6 +3,7 @@
 A small collection of *`home-manager`* modules I wrote. Each module has its
 documentation in its own folder's README:
 
+- [`diffnav`](./diffnav/README.md)
 - [`hm-utils`](./hm-utils/README.md)
 - [`ringboard`](./ringboard/README.md)
 - [`z8h`](./z8h/README.md)
