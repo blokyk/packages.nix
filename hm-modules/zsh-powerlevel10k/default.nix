@@ -48,7 +48,7 @@ with lib;
       type = types.submoduleWith {
         modules = [
           ./theme-options.nix
-          ./element-options.nix
+          ./elements
         ];
       };
       default = { };
