@@ -71,9 +71,22 @@ with lib;
     themes = mkOption {
       visible = "shallow";
       readOnly = true;
+      example = literalExpression ''
+        { config, ... }: {
+          programs.zsh-powerlevel10k.theme = lib.mkMerge [
+            config.programs.zsh-powerlevel10k.themes.robbyrussell
+            {
+              left-prompt = lib.mkBefore [ "nix-shell" ];
+              dir.foreground = lib.mkForce "purple";
+            }
+          ];
+        }
+      '';
       default = builtin-themes;
       description = literalMD ''
-        A list of pre-defined basic themes. *This value is read-only.*
+        A list of pre-defined basic themes, which can be used as a value for `theme`.
+        See the example for more info about how to use it.
+        *This value is read-only.*
         Available values:
         ${mkMDList (builtins.attrNames builtin-themes)}
       '';
