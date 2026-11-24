@@ -1,35 +1,19 @@
-{ lib, ... }:
+{ lib, p10k-utils, ... }:
 let
   inherit (lib) mkOption;
-  inherit (lib.types) bool either enum int ints nullOr str submodule;
+  inherit (lib.types) bool enum ints str submodule;
 
-  consts = import ../option-enums.nix;
-
-  color = either int (enum consts.colors);
+  inherit (p10k-utils) genPromptOpts mkElementOption optsToTypeset;
 in
 {
   options = {
-    dir = mkOption {
-      description = "current working directory";
-      default = { };
-      type = submodule {
+    dir = mkElementOption {
+      description = {
+        element = "current working directory";
+        expressionContent = "the final path";
+      };
+      module = {
         options = {
-          # POWERLEVEL9K_DIR_BACKGROUND
-          background = mkOption {
-            type = nullOr color;
-            default = null;
-            example = "yellow";
-            description = "The background color of this segment, as an xterm color id or name";
-          };
-
-          # POWERLEVEL9K_DIR_FOREGROUND
-          foreground = mkOption {
-            type = color;
-            default = "cyan";
-            example = "purple";
-            description = "The color of the current directory text, as an xterm color id or name";
-          };
-
           shorten = mkOption {
             description = ''
               If the directory is too long, shorten some of its segments, using
@@ -91,19 +75,18 @@ in
             example = true;
             description = "Display an indicator of whether or not the current directory is writable";
           };
-
-          # POWERLEVEL9K_DIR_CONTENT_EXPANSION
-          expression = mkOption {
-            type = str;
-            default = "$P9K_CONTENT";
-            example = "currently in %B$P9K_CONTENT%b";
-            description = ''
-              The expression to use for the element, where $P9K_CONTENT contains
-              the final path. See p10k's docs for allowed escape sequences.
-            '';
-          };
         };
       };
     };
   };
+
+  config.themeContent =
+    genPromptOpts "dir" (opts: {
+      path_absolute = lib.boolToString opts.absolute;
+      show_writable = lib.boolToString opts.writable;
+    }) (opts: optsToTypeset "shorten" {
+      # for some fucking reason, this is under _SHORTEN directly instead of _DIR_SHORTEN
+      inherit (opts.shorten) strategy delimiter;
+      dir_length = opts.shorten.length;
+    });
 }

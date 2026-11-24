@@ -1,46 +1,82 @@
-{ lib, ... }:
+{ config, lib, p10k-utils, ... }:
 let
   inherit (lib) mkOption types;
 
-  consts = import ./option-enums.nix;
+  inherit (p10k-utils) mkLeftRightOption;
+  inherit (p10k-utils.types) color p10k-mode prompt-element;
 
-  p10k-mode = types.enum consts.p10k-modes;
-  color = lib.types.either (lib.types.int) (lib.types.enum consts.colors);
-  prompt-element = types.enum consts.prompt-elements;
+  baseTheme =
+    let
+      whitespace-left-prompt =
+        let
+          ws = config.whitespace;
+        in
+        if (lib.isString ws) then ws else ws.left-elements;
+      whitespace-right-prompt =
+        let
+          ws = config.whitespace;
+        in
+        if (lib.isString ws) then ws else ws.right-elements;
 
-  mkLeftRightOption =
-    {
-      type,
-      default ? null,
-      example ? null,
-      description ? null,
-    }:
-    (mkOption {
-      type = types.either type (
-        types.submodule {
-          option = {
-            left = mkOption {
-              type = type;
-              default = default.left ? default;
-              example = example.left ? example;
-              description = description.left ? "The value of this option for the left side of the prompt";
-            };
-            right = mkOption {
-              type = type;
-              default = default.right ? default;
-              example = example.right ? example;
-              description = description.left ? "The value of this option for the right side of the prompt";
-            };
-          };
-        }
-      );
-      default = default;
-      example = example;
-      description = description;
-    });
+      getLeftValue = opt: lib.attrByPath [ "left" ] opt opt;
+      getRightValue = opt: lib.attrByPath [ "right" ] opt opt;
+    in ''
+      # Defines character set used by powerlevel10k. It's best to let `p10k configure` set it for you.
+      typeset -g POWERLEVEL9K_MODE=${config.mode}
+
+      # The list of segments shown on the left. Fill it with the most important segments.
+      typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+        ${lib.join " " (map (lib.replaceStrings [ "-" ] [ "_" ]) config.left-prompt)}
+      )
+
+      # The list of segments shown on the right. Fill it with less important segments.
+      typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
+        ${lib.join " " (map (lib.replaceStrings [ "-" ] [ "_" ]) config.right-prompt)}
+      )
+
+      # general prompt background
+      typeset -g POWERLEVEL9K_BACKGROUND="${toString config.background}"
+
+      # Spacing around each prompt element; LEFT_RIGHT means left prompt, right side of the element
+      typeset -g POWERLEVEL9K_RIGHT_RIGHT_WHITESPACE="${getRightValue whitespace-right-prompt}"
+      typeset -g POWERLEVEL9K_RIGHT_LEFT_WHITESPACE="${getLeftValue whitespace-right-prompt}"
+      typeset -g POWERLEVEL9K_LEFT_RIGHT_WHITESPACE="${getRightValue whitespace-left-prompt}"
+      typeset -g POWERLEVEL9K_LEFT_LEFT_WHITESPACE="${getLeftValue whitespace-left-prompt}"
+
+      # Separator between same-color prompt element
+      typeset -g POWERLEVEL9K_RIGHT_SUBSEGMENT_SEPARATOR="${getRightValue config.subsegment-separator}"
+      typeset -g POWERLEVEL9K_LEFT_SUBSEGMENT_SEPARATOR="${getLeftValue config.subsegment-separator}"
+      # Separator between different-color prompt element
+      typeset -g POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR="${getRightValue config.segment-separator}"
+      typeset -g POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR="${getLeftValue config.segment-separator}"
+
+      # General expression to use for displaying prompt icons
+      typeset -g POWERLEVEL9K_VISUAL_IDENTIFIER_EXPANSION='${config.icons-expression}'
+    '';
+
+  hotReload = ''
+    # Hot reload allows you to change POWERLEVEL9K options after Powerlevel10k has been initialized.
+    # For example, you can type POWERLEVEL9K_BACKGROUND=red and see your prompt turn red. Hot reload
+    # can slow down prompt by 1-2 milliseconds, so it's better to keep it turned off unless you
+    # really need it.
+    typeset -g POWERLEVEL9K_INSTANT_PROMPT=${toString config.instant-prompt}
+
+    # Hot reload allows you to change POWERLEVEL9K options after Powerlevel10k has been initialized.
+    # For example, you can type POWERLEVEL9K_BACKGROUND=red and see your prompt turn red. Hot reload
+    # can slow down prompt by 1-2 milliseconds, so it's better to keep it turned off unless you
+    # really need it.
+    typeset -g POWERLEVEL9K_DISABLE_HOT_RELOAD=${lib.boolToString (!config.hot-reload)}
+  '';
 in
 with lib;
 {
+  imports = [
+    (lib.modules.mkRenamedOptionModule
+      [ "extraContent" ]
+      [ "themeContent" ]
+    )
+  ];
+
   options = {
     # POWERLEVEL9K_MODE
     mode = mkOption {
@@ -196,13 +232,38 @@ with lib;
       example = "-";
     };
 
-    extraConfig = mkOption {
+    themeContent = mkOption {
       type = types.lines;
       default = "";
       example = ''
-        echo "prompt done!"
+        echo "prompt done!" > ~/.p10k.log
       '';
-      description = "Extra configuration to append at the end of `p10k.zsh`'s theming function";
     };
+  };
+
+  config = {
+    themeContent = lib.mkMerge [
+      (lib.mkOrder 0 ''
+        emulate -L zsh -o extended_glob
+
+        # Unset all configuration options. This allows you to apply configuration changes without
+        # restarting zsh. Edit ~/.p10k.zsh and type `source ~/.p10k.zsh`.
+        unset -m '(POWERLEVEL9K_*|DEFAULT_USER)~POWERLEVEL9K_GITSTATUS_DIR'
+
+        # Zsh >= 5.1 is required.
+        [[ $ZSH_VERSION == (5.<1->*|<6->.*) ]] || return
+      '')
+
+      (lib.mkBefore baseTheme)
+      # all your config will go here!
+      (lib.mkAfter hotReload)
+
+      # since it reloads the whole config after being set, this definitely needs to be last
+      (lib.mkOrder 10000 ''
+        # If p10k is already loaded, reload configuration.
+        # This works even with POWERLEVEL9K_DISABLE_HOT_RELOAD=true.
+        (( ! $+functions[p10k] )) || p10k reload
+      '')
+    ];
   };
 }

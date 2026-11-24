@@ -1,43 +1,18 @@
-{ lib, ... }:
+{ lib, p10k-utils, ... }:
 let
-  inherit (lib) mkIf mkOption mkOptionDefault;
-  inherit (lib.types) either enum int nullOr str submodule;
+  inherit (lib) mkIf mkOption mkOptionDefault mkOverride;
+  inherit (lib.types) nullOr str;
 
-  consts = import ../option-enums.nix;
-
-  color = either int (enum consts.colors);
+  inherit (p10k-utils) genPromptOpts mkElementOption;
 in
 {
   options = {
-    vcs = mkOption {
+    vcs = mkElementOption {
       description = "Git repository status";
-      default = { };
-      type = submodule (
+      module = (
         { config, ... }:
         {
           options = {
-            # POWERLEVEL9K_VCS_BACKGROUND
-            background = mkOption {
-              type = nullOr color;
-              example = "yellow";
-              description = "The background color of this segment, as an xterm color id or name";
-            };
-
-            # POWERLEVEL9K_VCS_FOREGROUND
-            foreground = mkOption {
-              type = nullOr color;
-              example = "magenta";
-              description = "The color of this segment's text, as an xterm color id or name";
-            };
-
-            # POWERLEVEL9K_VCS_LOADING_FOREGROUND
-            loading-foreground = mkOption {
-              type = nullOr color;
-              default = "grey58";
-              example = "red";
-              description = "The color of this segment's text when VCS info is still loading, as an xterm color id or name";
-            };
-
             # This one doesn't map directly to a single option; instead, it
             # can be either:
             #   - null,     in which case POWERLEVEL9K_VCS_DISABLE_GITSTATUS_FORMATTING=false
@@ -66,34 +41,37 @@ in
               '';
             };
 
-            expression = mkOption {
-              type = str;
-              defaultText = "{option}`vcs.formatter`";
-              example = "repo: $P9K_CONTENT";
-              description = ''
-                The expression to use for the element, where $P9K_CONTENT contains
-                the status text. See p10k's docs for allowed escape sequences.
-              '';
-            };
-
             loading-expression = mkOption {
-              type = str;
               defaultText = "{option}`vcs.formatter`";
               example = "repo(loading): $P9K_CONTENT";
-              description = ''
-                The expression to use for the element when VCS info is still
-                loading, where $P9K_CONTENT contains the status text. See p10k's
-                docs for allowed escape sequences.
-              '';
             };
           };
 
           config = mkIf (config.formatter != null) {
-            expression = mkOptionDefault "\${$((my_git_formatter(1)))+\${my_git_format}}";
-            loading-expression = mkOptionDefault "\${$((my_git_formatter(0)))+\${my_git_format}}";
+            loading-foreground = mkOptionDefault "grey58";
+
+            # 1499 is juuuust above the priority of `mkOptionDefault`,
+            # so that we silently override the value set by `mkElementOption`
+            expression = mkOverride 1499 "\${$((my_git_formatter(1)))+\${my_git_format}}";
+            loading-expression = mkOverride 1499 "\${$((my_git_formatter(0)))+\${my_git_format}}";
           };
         }
       );
     };
   };
+
+  config.themeContent =
+    genPromptOpts "vcs" (opts: {}) (opts: ''
+      ${
+        if (opts.formatter == null) then ''
+          typeset -g POWERLEVEL9K_VCS_DISABLE_GITSTATUS_FORMATTING=false
+        '' else ''
+          typeset -g POWERLEVEL9K_VCS_DISABLE_GITSTATUS_FORMATTING=true
+          function my_git_formatter() {
+            ${opts.formatter}
+          }
+          functions -M my_git_formatter 2>/dev/null
+        ''
+      }
+    '');
 }

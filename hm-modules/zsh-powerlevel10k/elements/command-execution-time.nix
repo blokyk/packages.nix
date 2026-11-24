@@ -1,37 +1,22 @@
-{ lib, ... }:
+{ lib, p10k-utils, ... }:
 let
   inherit (lib) mkOption;
-  inherit (lib.types) either enum int ints nullOr str submodule;
+  inherit (lib.types) ints nullOr str;
 
-  consts = import ../option-enums.nix;
-
-  color = either int (enum consts.colors);
+  inherit (p10k-utils) genPromptOpts mkElementOption;
 in
 {
   options = {
-    command-execution-time = mkOption {
-      type = submodule {
+    command-execution-time = mkElementOption {
+      description = "last command's execution time";
+      module = {
         options = {
-          background = mkOption {
-            type = nullOr color;
-            default = null;
-            example = "yellow";
-            description = "The background color of this segment, as an xterm color id or name";
-          };
-
-          foreground = mkOption {
-            type = nullOr color;
-            default = null;
-            example = "magenta";
-            description = "The color of this segment's text, as an xterm color id or name";
-          };
-
           threshold = mkOption {
             type = ints.unsigned;
             default = 3;
             example = 10;
             description = ''
-              Show duration of the last command if takes at least this many seconds.
+              Show duration of the last command if it takes at least this many seconds.
             '';
           };
 
@@ -64,18 +49,6 @@ in
             '';
           };
 
-          expression = mkOption {
-            type = str;
-            default = "$P9K_CONTENT";
-            example = "repo: $P9K_CONTENT";
-            description = ''
-              The expression to use for the element, where $P9K_CONTENT contains
-              the status text. See p10k's docs for allowed escape sequences.
-
-              Tip for nix-shell: set this to the empty string to hide the 'pure'/'impure' text (and only show the icon).
-            '';
-          };
-
           icon = mkOption {
             type = str;
             default = "$P9K_VISUAL_IDENTIFIER";
@@ -85,4 +58,9 @@ in
       };
     };
   };
+
+  config.themeContent = genPromptOpts "command-execution-time" (opts: {
+    # we can't just give `opts` directly because it also contains e.g. `expression` and `icon`
+    inherit (opts) threshold precision format prefix;
+  }) "";
 }

@@ -1,11 +1,12 @@
-{ lib, ... }:
+{ config, lib, p10k-utils, ... }:
 let
   inherit (lib) mkOption;
-  inherit (lib.types) either enum int nullOr str submodule;
+  inherit (lib.types) nullOr str submodule;
 
-  consts = import ../option-enums.nix;
+  inherit (p10k-utils) isSegmentEnabled;
+  inherit (p10k-utils.types) color;
 
-  color = either int (enum consts.colors);
+  cfg = config.prompt-char;
 in
 {
   options = {
@@ -69,4 +70,10 @@ in
       };
     };
   };
+
+  config.themeContent = lib.mkIf (isSegmentEnabled "prompt-char") ''
+    typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS}_FOREGROUND="${toString cfg.ok.foreground}"
+    typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS}_FOREGROUND="${toString cfg.error.foreground}"
+    typeset -g POWERLEVEL9K_PROMPT_CHAR_CONTENT_EXPANSION='${cfg.symbol}'
+  '';
 }
