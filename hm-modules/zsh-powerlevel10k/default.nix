@@ -49,11 +49,13 @@ with lib;
     };
 
     configFile = mkOption {
-      type = types.path;
-      example = literalExpression "home.programs.zsh.dotDir + \"/.p10k.zsh\"";
+      type = with types; either path str;
+      example = literalExpression "config.programs.zsh.dotDir + \"/.p10k.zsh\"";
       description = ''
         Path to the p10k theme file (generally called `.p10k.zsh`).
-        If this is set, then the `theme.*` options are ignored.
+
+        If this is a path, then the `theme.*` options will be ignored, and that file will be used instead as the p10k config.
+        If this is a string, then the config file will be generated at that path (this is mostly useful for debugging prompts by editing a writable config).
       '';
     };
 
@@ -128,15 +130,21 @@ with lib;
   config = mkIf cfg.enable {
     home.packages = [ cfg.package ];
 
+    # if configFile is explicitly set to a string, write to it
+    home.file = mkIf (lib.isString cfg.configFile) {
+      "${lib.removePrefix config.home.homeDirectory cfg.configFile}".text = cfg.configContent;
+    };
+
+    # if configFile is not set, make it point to the generated content
+    programs.zsh-powerlevel10k.configFile = mkOptionDefault (
+      pkgs.writeText ".p10k.zsh" cfg.configContent
+    );
+
     programs.zsh-powerlevel10k = {
       promptElements = listNixFilesAndDirs {
         path = ./elements;
         exceptions = [];
       };
-
-      configFile = mkOptionDefault (
-        pkgs.writeText ".p10k.zsh" cfg.configContent
-      );
 
       configContent = lib.mkMerge [
         # this is the very very basic setup code, so this needs to be at the absolute beginning
