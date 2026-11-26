@@ -81,6 +81,9 @@ with lib;
         modules = [
           ./p10k-theme-utils.nix
           ./theme-options.nix
+
+          # copy the args (like pkgs, lib, etc.) from the outer evaluation
+          { _module.args = lib.mapAttrs (_: lib.mkDefault) config._module.args; }
         ] ++ cfg.promptElements;
       };
       default = { };
