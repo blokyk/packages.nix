@@ -39,5 +39,4 @@ in {
 
       pathsToImport = mapAttrsToList (name: _: path + ("/" + name)) nixyEntries;
     in pathsToImport;
-
 }
