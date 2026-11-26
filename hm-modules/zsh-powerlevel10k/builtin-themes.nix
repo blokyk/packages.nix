@@ -1,3 +1,4 @@
+{ builtin-formatters, ... }:
 {
   robbyrussell = {
     left-prompt = [
@@ -25,6 +26,6 @@
       expression = "%B$P9K_CONTENT%b";
     };
 
-    vcs.formatter = (import ./builtin-git-formatters.nix).robbyrussell;
+    vcs.formatter = builtin-formatters.robbyrussell;
   };
 }

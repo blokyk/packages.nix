@@ -10,8 +10,8 @@ let
 
   inherit (import ../../utils.nix) listNixFilesAndDirs;
 
-  builtin-themes = import ./builtin-themes.nix;
-  builtin-formatters = import ./builtin-git-formatters.nix;
+  builtin-themes = import ./builtin-themes.nix { inherit lib builtin-formatters; };
+  builtin-formatters = import ./builtin-git-formatters.nix { inherit lib; };
 
   # format strings ["foo", "bar", "baz"] as:
   # ''

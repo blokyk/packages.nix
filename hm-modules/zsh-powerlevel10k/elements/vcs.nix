@@ -1,7 +1,7 @@
 { lib, p10k-utils, ... }:
 let
   inherit (lib) mkIf mkOption mkOptionDefault mkOverride;
-  inherit (lib.types) nullOr str;
+  inherit (lib.types) lines nullOr;
 
   inherit (p10k-utils) genPromptOpts mkElementOption;
 in
@@ -22,7 +22,7 @@ in
             #                 - POWERLEVEL9K_VCS_CONTENT_EXPANSION='${$((my_git_formatter(1)))+${my_git_format}}'
             #                 - POWERLEVEL9K_VCS_LOADING_CONTENT_EXPANSION='${$((my_git_formatter(0)))+${my_git_format}}'
             formatter = mkOption {
-              type = nullOr str;
+              type = nullOr lines;
               default = null;
               description = ''
                 The body of the function used to format the git status part of the prompt.
@@ -34,9 +34,7 @@ in
                 ${lib.join "\n" (map (m: "- `${m}`") (builtins.attrNames (import ./builtin-git-formatters.nix)))}
               '';
               example = ''
-                emulate -L zsh
-
-                # just display 'git:(current-branch-name)
+                # just display 'git:(current-branch-name)'
                 typeset -g my_git_format='git:('"$VCS_STATUS_LOCAL_BRANCH"')'
               '';
             };
@@ -69,6 +67,17 @@ in
         '' else ''
           typeset -g POWERLEVEL9K_VCS_DISABLE_GITSTATUS_FORMATTING=true
           function my_git_formatter() {
+            emulate -L zsh
+
+            typeset -g my_git_format=
+
+            if [[ -n "$P9K_CONTENT" ]]; then
+                # If P9K_CONTENT is not empty, it's either "loading" or from vcs_info (not from
+                # gitstatus plugin). VCS_STATUS_* parameters are not available in this case.
+                my_git_format="$P9K_CONTENT"
+                return
+            fi
+
             ${opts.formatter}
           }
           functions -M my_git_formatter 2>/dev/null
